@@ -7,6 +7,7 @@ using namespace std;
 #define fi first
 #define se second
 
+typedef long long ll;
 typedef pair<int, int> ii;
 const int INF = 0x3f3f3f3f;
 const double PI = acos(-1.0);
