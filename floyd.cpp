@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
 
+using namespace std;
+
 typedef long long ll;
 
 const int N = 401;
@@ -18,7 +20,7 @@ void floyd () {
 
 int main (void) {
 	memset(adj, INF, sizeof adj);
-	// Ler adjs
+	// Ler adj
 
 	return 0;
 }
