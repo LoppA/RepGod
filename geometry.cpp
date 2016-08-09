@@ -2,8 +2,24 @@
 
 using namespace std;
 
+#define mk make_pair
+#define pb push_back
+#define fi first
+#define se second
+
+typedef pair<int, int> ii;
+typedef long long ll;
+const double EPS = 1e-6;
+
+ll gcd (ll a, ll b) {
+	if (!b)
+		return a;
+	else
+		return gcd(b, a%b);
+}
+
 class Point {
-	static const int EPS = 1e-7;
+	static const int EPS = 1e-6;
 public:
 	double x, y;
 
@@ -48,6 +64,17 @@ public:
 	/*Projecao*/
 	double proj (Point &b) {
 		return ((*this)*b)/(b.len()*b.len());
+	}
+
+	/*Angulo em forma de fracao reduzida entre o vetor Op (p é o ponto)
+	 e o eixo x, se paralelo ao eixo x retorna (1,0) ou (-1,0)
+	 se paralelo ao eixo y retorna (0,1) ou (0,-1)
+	 SÓ FUNCIONA PARA PONTOS INTEIROS*/ 
+	ii ang () {
+		int a = this->x, b = this->y;
+		if (a == 0) return mk(0, b/abs(b));
+		else if (b == 0) return mk(a/abs(a), 0);
+		return mk(a/gcd(a,b), b/gcd(a,b));
 	}
 
 	Point norm () {
@@ -112,6 +139,5 @@ ostream &operator<<(ostream &os, Point const &p) {
 }
 
 int main (void) {
-	
 	return 0;
 }
