@@ -2,16 +2,6 @@
 
 using namespace std;
 
-#define pb push_back
-#define mk make_pair
-#define fi first
-#define se second
-
-typedef pair<int, int> ii;
-const int INF = 0x3f3f3f3f;
-const double PI = acos(-1.0);
-const double E = exp(1);
-
 class Point {
 	static const int EPS = 1e-7;
 public:
@@ -50,13 +40,16 @@ public:
 		return Point (x - b.x, y - b.y);
 	}
 
+	/*Distancia ponto a ponto*/
 	double dpp (const Point &b) {
 		return ((*this)-b).len();
 	}
 
+	/*Projecao*/
 	double proj (Point &b) {
-		return ((*this)*b)/b.len();
+		return ((*this)*b)/(b.len()*b.len());
 	}
+
 	Point norm () {
 		return Point (x/this->len(), y/this->len());
 	}
@@ -67,6 +60,20 @@ public:
 
 	bool operator < (const Point &b) const {
 		return ((x < b.x) or ((x == b.x) and y < b.y));
+	}
+
+	// Distancia do ponto p ao segmento ab, tambem retorna por 
+	// referencia o ponto (c) do segmento mais perto de p
+	double distToLine (const Point a, const Point b, Point& c) {
+		// formula: c = a + u * ab
+		Point p = *this;
+		if (a == b) return p.dpp(a);
+		Point ap = Point(p - a), ab = Point(b - a);
+		double u = ap.proj(ab);
+		if (u < 0.0) u = 0.0;
+		if (u > 1.0) u = 1.0;
+		c = a + ab * u;
+		return p.dpp(c);
 	}
 
 	Point rotaciona (double ang) {
@@ -100,8 +107,11 @@ public:
 	}
 };
 
-int main (void) {
-	ios_base::sync_with_stdio(false);
+ostream &operator<<(ostream &os, Point const &p) {
+	return os << p.x << " " << p.y;
+}
 
+int main (void) {
+	
 	return 0;
 }
