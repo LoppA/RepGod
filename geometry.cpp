@@ -10,6 +10,7 @@ using namespace std;
 typedef pair<int, int> ii;
 typedef long long ll;
 const double EPS = 1e-6;
+const double PI = acos(-1.0);
 
 ll gcd (ll a, ll b) {
 	if (!b)
@@ -19,7 +20,7 @@ ll gcd (ll a, ll b) {
 }
 
 class Point {
-	static const double EPS = 1e-6;
+	static const double EPS;
 public:
 	double x, y;
 
@@ -138,6 +139,31 @@ ostream &operator<<(ostream &os, Point const &p) {
 	return os << p.x << " " << p.y;
 }
 
+class Triangle {
+public:
+	Point p[3];
+	double side[3];
+	double per, area;
+
+	Triangle () {}
+
+	Triangle (double a, double b, double c) {
+		side[0] = a;	side[1] = b;	side[2] = c;
+		per = a + b + c;
+		area = sqrt((per/2.0) * (per/2.0 - a) * (per/2.0 - b) * (per/2.0 - c));
+	}
+
+	double raioInCircle () {
+		return area/(per/2.0);
+	}
+
+	double raioCircumCircle () {
+		return side[0] * side[1] * side[2] / (4.0 * area);
+	}
+
+};
+
 int main (void) {
+
 	return 0;
 }
