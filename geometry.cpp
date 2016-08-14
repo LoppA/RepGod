@@ -31,6 +31,14 @@ public:
 		this->y = y;
 	}
 
+	bool operator == (const Point &b) const {
+		return (abs (x - b.x) < EPS and abs (y - b.y) < EPS);
+	}
+
+	bool operator < (const Point &b) const {
+		return ((x < b.x) or ((x == b.x) and y < b.y));
+	}
+
 	//Produto vetorial
 	double operator ^ (const Point &b) const {
 		return (this->x * b.y) - (this->y * b.x); 
@@ -44,17 +52,17 @@ public:
 	Point operator * (double k) {
 		return Point (x*k, y*k);
 	}
-
-	double len () {
-		return sqrt (x*x + y*y);
-	}
-
+	
 	Point operator + (const Point &b) const {
 		return Point (x + b.x, y + b.y);
 	}
 
 	Point operator - (const Point &b) const {
 		return Point (x - b.x, y - b.y);
+	}
+
+	double len () {
+		return sqrt (x*x + y*y);
 	}
 
 	/*Distancia ponto a ponto*/
@@ -67,27 +75,8 @@ public:
 		return ((*this)*b)/(b.len()*b.len());
 	}
 
-	/*Angulo em forma de fracao reduzida entre o vetor Op (p é o ponto)
-	 e o eixo x, se paralelo ao eixo x retorna (1,0) ou (-1,0)
-	 se paralelo ao eixo y retorna (0,1) ou (0,-1)
-	 SÓ FUNCIONA PARA PONTOS INTEIROS*/ 
-	ii ang () {
-		int a = this->x, b = this->y;
-		if (a == 0) return mk(0, b/abs(b));
-		else if (b == 0) return mk(a/abs(a), 0);
-		return mk(a/gcd(a,b), b/gcd(a,b));
-	}
-
 	Point norm () {
 		return Point (x/this->len(), y/this->len());
-	}
-
-	bool operator == (const Point &b) const {
-		return (abs (x - b.x) < EPS and abs (y - b.y) < EPS);
-	}
-
-	bool operator < (const Point &b) const {
-		return ((x < b.x) or ((x == b.x) and y < b.y));
 	}
 
 	// Distancia do ponto p ao segmento ab, tambem retorna por 
@@ -111,7 +100,7 @@ public:
 		return Point(X,Y);
 	}
 
-	vector <Point> convex_hull (vector <Point> p) {
+	static vector <Point> convex_hull (vector <Point> p) {
 		if (p.size() <= 2) return p;
 
 		int n = p.size(), k = 0;
@@ -132,6 +121,17 @@ public:
 		H.resize(k-1);
 
 		return H;
+	}
+	
+	/*Angulo em forma de fracao reduzida entre o vetor Op (p é o ponto)
+	 e o eixo x, se paralelo ao eixo x retorna (1,0) ou (-1,0)
+	 se paralelo ao eixo y retorna (0,1) ou (0,-1)
+	 SÓ FUNCIONA PARA PONTOS INTEIROS*/ 
+	static ii ang (Point p) {
+		int a = p.x, b = p.y;
+		if (a == 0) return mk(0, b/abs(b));
+		else if (b == 0) return mk(a/abs(a), 0);
+		return mk(a/gcd(a,b), b/gcd(a,b));
 	}
 };
 
