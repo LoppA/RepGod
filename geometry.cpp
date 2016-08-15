@@ -20,7 +20,7 @@ ll gcd (ll a, ll b) {
 }
 
 class Point {
-	static const double EPS;
+	static const double EPS = 1e-6;
 public:
 	double x, y;
 
