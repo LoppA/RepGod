@@ -83,6 +83,12 @@ public:
 		return Point (x/this->len(), y/this->len());
 	}
 
+	/*Retorna o vetor perpendicular ao vetor (0,0) -> (Point)
+	Sentido clockwise*/
+	Point perp () {
+		return Point (this->y, -1.0 * this->x);
+	}
+
 	// Distancia do ponto p ao segmento ab, tambem retorna por 
 	// referencia o ponto (c) do segmento mais perto de p
 	double distToLine (const Point a, const Point b, Point& c) {
@@ -100,7 +106,7 @@ public:
 	Point rotaciona (double ang) {
 		double c = cos(ang), s = sin(ang);
 		double X = x*c + y*s;
-		double Y = x*(-1*s) + y*c;
+		double Y = x*(-1.0*s) + y*c;
 		return Point(X,Y);
 	}
 
@@ -146,6 +152,17 @@ public:
 		if (a == 0) return mk(0, b/abs(b));
 		else if (b == 0) return mk(a/abs(a), 0);
 		return mk(a/gcd(a,b), b/gcd(a,b));
+	}
+
+	static double inter (Point p1, Point v1, Point p2, Point v2) {
+		if (abs(v2 ^ v1) >= EPS) {
+			Point c = p1 - p2;
+			return (c ^ v2)/(v2 ^v1);
+		} else {
+			cout << "Class Point (funcao inter): retas paralelas" << endl;
+			cout << "Talvez deva ajustar o EPS" << endl;
+		}
+		return 0.0;
 	}
 };
 
