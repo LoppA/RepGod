@@ -20,7 +20,6 @@ ll gcd (ll a, ll b) {
 }
 
 class Point {
-	static const double EPS = 1e-6;
 public:
 	double x, y;
 
@@ -51,6 +50,11 @@ public:
 
 	Point operator * (double k) {
 		return Point (x*k, y*k);
+	}
+
+	Point operator / (double k) {
+		if (k == 0.0) cout << "Class Point (operador /): divisao por zero" << endl;
+		return Point (x/k, y/k);
 	}
 	
 	Point operator + (const Point &b) const {
@@ -173,7 +177,51 @@ public:
 
 };
 
+class Circle {
+public:
+	Point c;
+	double r;
+
+	Circle () {}
+
+	Circle (Point c, double r) : c(c), r(r) {}
+
+	/*Interseccao de dois circulos
+	OBS: se ha infinitas interseccoes retorna o vetor vazio
+	OBS: se existe só um ponto retorna 2 pontos iguais*/
+	vector <Point> intersect (Circle b) {
+		vector <Point> ret;
+		Point c1 = this->c, c2 = b.c;
+		double r1 = this->r, r2 = b.r;
+
+		if (c1 == c2) return ret;
+
+		double d = c1.dpp(c2);
+		
+		if (d > r1 + r2 + EPS) return ret;
+		if (d + EPS < abs(r1 - r2)) return ret;
+
+		double a = (r1*r1 - r2*r2 + d*d)/(2.0*d);
+		double h = sqrt(max(0.0, r1*r1 - a*a));
+
+		Point pc = c1 + ((c2 - c1)*a)/d;
+
+		/*X EH MENOS E Y OUTRO EH MAIS*/
+		double x = pc.x - ((h*(c2.y - c1.y))/d);
+		double y = pc.y + ((h*(c2.x - c1.x))/d);
+		ret.pb(Point(x,y));
+
+		x = pc.x + ((h*(c2.y - c1.y))/d);
+		y = pc.y - ((h*(c2.x - c1.x))/d);
+		ret.pb(Point(x,y));
+
+		return ret;
+	}
+
+};
+
 int main (void) {
+	ios_base::sync_with_stdio(false);
 
 	return 0;
 }
