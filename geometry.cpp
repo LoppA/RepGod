@@ -206,7 +206,7 @@ public:
 
 		Point pc = c1 + ((c2 - c1)*a)/d;
 
-		/*X EH MENOS E Y OUTRO EH MAIS*/
+		/*X EH MENOS E Y EH MAIS*/
 		double x = pc.x - ((h*(c2.y - c1.y))/d);
 		double y = pc.y + ((h*(c2.x - c1.x))/d);
 		ret.pb(Point(x,y));
