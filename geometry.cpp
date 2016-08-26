@@ -30,10 +30,12 @@ public:
 		this->y = y;
 	}
 
+	/**/
 	bool operator == (const Point &b) const {
 		return (abs (x - b.x) < EPS and abs (y - b.y) < EPS);
 	}
 
+	/**/
 	bool operator < (const Point &b) const {
 		return ((x < b.x) or ((x == b.x) and y < b.y));
 	}
@@ -48,6 +50,7 @@ public:
 		return (this->x * b.x) + (this->y * b.y);
 	}
 
+	/**/
 	Point operator * (double k) {
 		return Point (x*k, y*k);
 	}
@@ -57,14 +60,17 @@ public:
 		return Point (x/k, y/k);
 	}
 	
+	/**/
 	Point operator + (const Point &b) const {
 		return Point (x + b.x, y + b.y);
 	}
 
+	/**/
 	Point operator - (const Point &b) const {
 		return Point (x - b.x, y - b.y);
 	}
 
+	/**/
 	double len () {
 		return sqrt (x*x + y*y);
 	}
@@ -103,6 +109,7 @@ public:
 		return p.dpp(c);
 	}
 
+	/**/
 	Point rotaciona (double ang) {
 		double c = cos(ang), s = sin(ang);
 		double X = x*c + y*s;
@@ -120,6 +127,7 @@ public:
 		return abs(area/2.0);
 	}
 
+	/**/
 	static vector <Point> convex_hull (vector <Point> p) {
 		if (p.size() <= 2) return p;
 
@@ -154,6 +162,7 @@ public:
 		return mk(a/gcd(a,b), b/gcd(a,b));
 	}
 
+	/*Interseccao de dois vetores somandos a pontos*/
 	static double inter (Point p1, Point v1, Point p2, Point v2) {
 		if (abs(v2 ^ v1) >= EPS) {
 			Point c = p1 - p2;
@@ -163,6 +172,44 @@ public:
 			cout << "Talvez deva ajustar o EPS" << endl;
 		}
 		return 0.0;
+	}
+
+	/*Retorna o retangulo (pontos em anti clockwise) que tem a menor valor
+	min(Xmax -Xmin, Ymax - Ymin)*/
+	static vector <Point> minRetangulo (vector <Point> v) {
+		vector <Point> at;
+		at.pb(Point(-1e18, -1e18));
+		at.pb(Point(1e18, -1e18));
+		at.pb(Point(1e18, 1e18));
+		at.pb(Point(-1e18, 1e18));
+		v = convex_hull(v);
+		int n = v.size();
+		for (int i = 0; i < n; i++) {
+			int j = (i+1)%n;
+			Point vec = v[j] - v[i];
+			double ang = atan2(vec.y, vec.x);
+			vector <Point> ve;
+			for (int j = 0; j < n; j++) {
+				ve.pb(v[j].rotaciona(ang));
+			}
+			double minx = DBL_MAX, miny = DBL_MAX, maxx = -DBL_MAX, maxy = -DBL_MAX;
+			for (int j = 0; j < n; j++) {
+				if (ve[j].x < minx) minx = ve[j].x;
+				if (ve[j].x > maxx) maxx = ve[j].x;
+				if (ve[j].y < miny) miny = ve[j].y;
+				if (ve[j].y > maxy) maxy = ve[j].y;
+			}
+			double mini = min(maxx - minx, maxy - miny);
+			if (mini < min(at[2].x - at[0].x, at[2].y - at[0].y)) {
+				at.clear();
+				at.pb(Point(minx, miny));
+				at.pb(Point(maxx, miny));
+				at.pb(Point(maxx, maxy));
+				at.pb(Point(minx, maxy));
+			}
+		}
+
+		return at;
 	}
 };
 
@@ -178,16 +225,19 @@ public:
 
 	Triangle () {}
 
+	/**/
 	Triangle (double a, double b, double c) {
 		side[0] = a;	side[1] = b;	side[2] = c;
 		per = a + b + c;
 		area = sqrt((per/2.0) * (per/2.0 - a) * (per/2.0 - b) * (per/2.0 - c));
 	}
 
+	/**/
 	double raioInCircle () {
 		return area/(per/2.0);
 	}
 
+	/**/
 	double raioCircumCircle () {
 		return side[0] * side[1] * side[2] / (4.0 * area);
 	}
