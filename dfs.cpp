@@ -63,7 +63,7 @@ public:
 
 	Grafo () {
 		memset(vis, 0, sizeof vis);
-		pt = t = 0;
+		t = 0;
 	}
 
 	void ponte (int u, int v) {
