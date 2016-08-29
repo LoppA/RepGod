@@ -93,9 +93,9 @@ public:
 				low[at] = min(low[at], entra[next]);
 			}
 		
-		if (pai == -1) 
+		if (pai == -1) {
 			if (filhos >= 2) vertice_corte(at);
-		else 
+		} else 
 			if (f)	vertice_corte(at);
 
 		sai[at] = t++;
