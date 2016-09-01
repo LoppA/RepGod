@@ -27,27 +27,6 @@ public class base {
 	}
 }
 
-class Pii implements Comparable<Pii> {
-	int fi, se;
-
-	Pii () {}
-
-	Pii (int a, int b) {
-		this.fi = a;	this.se = b;
-	}
-
-	@Override
-	public int compareTo (Pii b) {
-		if (this.fi != b.fi) return this.fi < b.fi ? -1 : 1;
-		else if (this.se != b.se) return this.se < b.se ? -1 : 1;
-		return 0;
-	}
-
-	public boolean equals (Pii b) {
-		return (this.compareTo(b) == 0);
-	}
-}
-
 class set<A> {
 	TreeSet <A> s;
 
