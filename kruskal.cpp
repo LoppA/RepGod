@@ -22,7 +22,10 @@ public:
 	int pai[N], size[N];
 	int cps;
 
-	uni() {}
+	uni() {
+		memset(pai, -1, sizeof pai);
+		memset(size, 0, sizeof size);
+	}
 
 	uni(int n) {
 		memset(pai, -1, sizeof pai);
