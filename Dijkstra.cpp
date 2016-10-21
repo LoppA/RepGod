@@ -30,9 +30,9 @@ ll go (int s, int t) {
 			return dist;
 
 		for (int i = 0; i < (int)g[at].size(); i++) {
-			int next = g[at][i], peso = p[at][i];
-			if (dist + peso < d[next]) {
-				d[next] = dist + peso;
+			int next = g[at][i], cost = p[at][i];
+			if (dist + cost < d[next]) {
+				d[next] = dist + cost;
 				pq.push(mk(d[next], next));
 			}
 		}
