@@ -9,6 +9,7 @@ using namespace std;
 
 struct state {
 	int len, link;
+	int fpos;
 	map <char, int> next;
 };
 
@@ -23,11 +24,14 @@ void sa_init() {
 	sz = 1;
 	st[0].len = 0;
 	st[0].link = -1;
+	st[0].fpos = -1;
 }
 
 void sa_extend (char c) {
 	int cur = sz++;
 	st[cur].len = st[last].len + 1;
+	// fpos
+	st[cur].fpos = st[cur].len - 1;
 	int p;
 	for (p = last; p != -1 and !st[p].next.count(c); p = st[p].link)
 		st[p].next[c] = cur;
@@ -42,12 +46,21 @@ void sa_extend (char c) {
 			st[clone].len = st[p].len + 1;
 			st[clone].next = st[q].next;
 			st[clone].link = st[q].link;
+			// fpos
+			st[clone].fpos = st[q].fpos;
 			for (; p != -1 and st[p].next[c] == q; p = st[p].link)
 				st[p].next[c] = clone;
 			st[q].link = st[cur].link = clone;
 		}
 	}
 	last = cur;
+}
+
+void sa_build() {
+	sa_init();
+	string s;	cin >> s;
+	for (int i = 0; i < (int)s.size(); i++)
+		sa_extend(s[i]);
 }
 
 int main (void) {
