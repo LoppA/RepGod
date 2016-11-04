@@ -43,21 +43,20 @@ public:
 		if (dist[v] < dist[u])
 		swap(v,u);
 
-		while (dist[u] < dist[v]){
-				int i = 0;
-				while (dist[pai[v][++i]] > dist[u]);
-				v = pai[v][i-1];
-		}
+		int x = dist[v] - dist[u];
+
+		for (int i = 0; i < LOG; i++) 
+			if (x & (1<<i))
+				v = pai[v][i];
+
 		if (u == v) return u;
 
-		while (pai[u][0] != pai[v][0]){
-				int i = 0;
-				while (pai[v][i] != pai[u][i]){
-						i++;
-				}
-				v = pai[v][i-1];
-				u = pai[u][i-1];
-		}
+		for (int i = LOG - 1; i >= 0; i--) 
+			if (pai[u][i] != pai[v][i]) {
+				u = pai[u][i];
+				v = pai[v][i];
+			}
+
 		return pai[v][0];
 	}
 };
