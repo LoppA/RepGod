@@ -217,33 +217,6 @@ ostream &operator<<(ostream &os, Point const &p) {
 	return os << p.x << " " << p.y;
 }
 
-class Triangle {
-public:
-	Point p[3];
-	double side[3];
-	double per, area;
-
-	Triangle () {}
-
-	/**/
-	Triangle (double a, double b, double c) {
-		side[0] = a;	side[1] = b;	side[2] = c;
-		per = a + b + c;
-		area = sqrt((per/2.0) * (per/2.0 - a) * (per/2.0 - b) * (per/2.0 - c));
-	}
-
-	/**/
-	double raioInCircle () {
-		return area/(per/2.0);
-	}
-
-	/**/
-	double raioCircumCircle () {
-		return side[0] * side[1] * side[2] / (4.0 * area);
-	}
-
-};
-
 class Circle {
 public:
 	Point c;
