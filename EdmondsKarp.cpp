@@ -70,7 +70,7 @@ public:
 
 			if(pai[t] == -1) {
 				int ret = 0;
-				for (int i = 0; i < n; i++) 
+				for (int i = 0; i <= n; i++) 
 					ret += flow[i][t];
 				return ret;
 			}
