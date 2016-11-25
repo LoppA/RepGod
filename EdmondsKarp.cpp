@@ -1,3 +1,7 @@
+/*
+	value of MinCut = MaxFlow
+*/
+
 #include <bits/stdc++.h>
 
 using namespace std;
