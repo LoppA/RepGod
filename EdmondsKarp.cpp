@@ -1,7 +1,3 @@
-/*
-	value of MinCut = MaxFlow
-*/
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -14,6 +10,8 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> ii;
 const int INF = 0x3f3f3f3f;
+const double PI = acos(-1.0);
+const double E = exp(1);
 
 const int N = 202;
 
@@ -31,15 +29,19 @@ public:
 			g[i].clear();
 	}
 
+	void edge (int a, int b, int c) {
+		g[a].pb(b);
+		g[b].pb(a);
+		cap[a][b] += c;
+	}
+
 	Flow (int n, int m) {
 		*(this) = Flow ();
 		this->n = n;	this->m = m;
 		for (int i = 0; i < m; i++) {
 			int a, b, c;	cin >> a >> b >> c;
 			if (a == b) continue;
-			g[a].pb(b);
-			g[b].pb(a);
-			cap[a][b] += c;
+			edge (a, b, c);
 		}
 	}
 
