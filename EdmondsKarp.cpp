@@ -76,21 +76,13 @@ public:
 			}
 
 			int f = INF;
-			int a = t;
 
-			while (a != s) {
-				int b = a;
-				a = pai[b];
-				f = min(f, cap[a][b]);
-			}
+			for (int at = t; at != s; at = pai[at]) f = min (f, cap[pai[at]][at]);
 
-			a = t;
-			while (a != s) {
-				int b = a;
-				a = pai[b];
-				flow[a][b] += f;
-				cap[a][b] -= f;
-				cap[b][a] += f;
+			for (int at = t; at != s; at = pai[at]) {
+				flow[pai[at]][at] += f;
+				cap[pai[at]][at] -= f;
+				cap[at][pai[at]] += f;
 			}
 		}
 	}
