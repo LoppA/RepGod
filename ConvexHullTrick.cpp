@@ -1,6 +1,6 @@
 /* 	dp[i] = min j>i { a[j]*b[i] + dp[j] } 
-			varj atual >= varj antigo
-(optional)	vari atual <= vari antigo
+			varj atual <= varj antigo
+(optional)	vari atual >= vari antigo
 
 		vari -> query (x da linha)
 		varj -> slope da linha
