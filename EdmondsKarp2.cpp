@@ -24,8 +24,6 @@ struct edge {
 
 const int N = 111;
 vector <edge> g[N];
-int n, m, s, t;
-int a, b;
 
 void add (int a, int b, int c) {
 	g[a].pb(edge(b, c, 0, g[b].size()));
@@ -33,7 +31,6 @@ void add (int a, int b, int c) {
 }
 
 ii pai[N];
-
 int bfs (int s, int t) {
 	for (int i = 0; i < N; i++)
 		pai[i] = ii(-1, -1);
