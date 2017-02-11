@@ -2,31 +2,35 @@
 
 using namespace std;
 
-const int N = 1e6 + 5;
+#define pb push_back
+#define mk make_pair
+#define fi first
+#define se second
+
+typedef long long ll;
+typedef pair<int, int> ii;
+const int INF = 0x3f3f3f3f;
+const double PI = acos(-1.0);
+
+const int N = 2e5 + 5;
+string s;
 int z[N];
 
-void Z (string &s) {
-	int L = 0, R = 0;
-	
+void go () {
+	int l = 0, r = 0;
 	int n = s.size();
+	memset (z, 0, sizeof z);
+
 	for (int i = 1; i < n; i++) {
-		if (i > R) {
-			L = R = i;
-			while (R < n and s[R-L] == s[R])	R++;
-			R--;
-			z[i] = R - L + 1;
-		} else {
-			int k = i - L;
-			if (z[k] < R - i + 1)	z[i] = z[k];
-			else {
-				L = i;
-				while (R < n and s[R-L] == s[R])	R++;
-				R--;
-				z[i] = R - L + 1;
-			}
+		if (i <= r)
+			z[i] = min (z[i-l], r - i + 1);
+		while (z[i] + i < n and s[z[i] + i] == s[z[i]])
+			z[i]++;
+		if (r < i + z[i] - 1) {
+			l = i;
+			r = i + z[i] - 1;
 		}
 	}
-	
 }
 
 int main (void) {
