@@ -1,4 +1,17 @@
-/*Mais facil pra recuperar o flow*/
+/*
+*   Implementacao mais facil pra recuperar o flow
+*
+*	Grafo do flow G
+*	MinCut: corte de G em S - T, s pertence a S e t pertence a T
+*
+*	MinCut = MaxFlow
+*
+*	Todos os vertices alcancaveis por s no grafo residual final
+*	pertence a S o resto pertence a T
+*
+*	As arestas de MinCut sao todas que linhas S a T
+*/
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -76,6 +89,22 @@ int max_flow (int s, int t) {
 	return ret;
 }
 
+bool vis[N];
+void find_MinCut (int at) {
+	vis[at] = 1;
+
+	for (int i = 0; i < (int)g[at].size(); i++) {
+		edge edg = g[at][i];
+		int next = edg.to;
+		if (pai[next].fi == -1) 
+			cout << at << " " << next << endl;
+		else if (!vis[next])
+			find_MinCut (next);
+	}
+}
+
 int main (void) {
+	ios_base::sync_with_stdio(false);
+
 	return 0;
 }
