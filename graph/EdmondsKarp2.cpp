@@ -1,6 +1,7 @@
-/*
-*   Implementacao mais facil pra recuperar o flow
-*
+/*  Implementacao mais facil pra recuperar o flow
+*   
+*   MinCut tutorial:
+*   
 *	Grafo do flow G
 *	MinCut: corte de G em S - T, s pertence a S e t pertence a T
 *
