@@ -1,4 +1,5 @@
-/*  Implementacao mais facil pra recuperar o flow
+/*  O (V^2 * E)
+	Implementacao mais facil pra recuperar o flow
 *   
 *   MinCut tutorial:
 *   
