@@ -35,6 +35,8 @@ void add (int a, int b, int cost, int cap) {
 int h[N];
 /*negative edges*/
 void bellman_ford () {
+	memset (h, INF, sizeof h);
+	h[s] = 0;
 	for (int i = 0; i < n - 1; i++) 
 		for (int at = 0; at < n; at++) 
 			for (int j = 0; j < (int)g[at].size(); j++) {
@@ -79,15 +81,14 @@ int dijkstra (int s, int t) {
 	}
 
 	for (int i = 0; i < N; i++)
-		if (dist[i])
-			h[i] += dist[i];
+		h[i] += dist[i];
 
 	return ret;
 }
 
 ii max_flow (int s, int t) {
 	int cost = 0, flow = 0;
-	bellman_ford();
+	bellman_ford(s);
 
 	while (dijkstra(s, t)) {
 		int f = INF;
