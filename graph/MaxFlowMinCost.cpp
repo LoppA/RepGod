@@ -34,7 +34,7 @@ void add (int a, int b, int cost, int cap) {
 
 int h[N];
 /*negative edges*/
-void bellman_ford () {
+void bellman_ford (int s) {
 	memset (h, INF, sizeof h);
 	h[s] = 0;
 	for (int i = 0; i < n - 1; i++) 
