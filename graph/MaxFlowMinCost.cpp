@@ -35,7 +35,7 @@ void add (int a, int b, int cost, int cap) {
 int h[N];
 /*negative edges*/
 void bellman_ford (int s) {
-	memset (h, INF, sizeof h);
+	fill (h, h + N, INF);
 	h[s] = 0;
 	for (int i = 0; i < n - 1; i++) 
 		for (int at = 0; at < n; at++) 
@@ -49,7 +49,7 @@ void bellman_ford (int s) {
 ii pai[N];
 int dist[N];
 int dijkstra (int s, int t) {
-	memset (dist, INF, sizeof dist);
+	fill (dist, dist + N, INF);
 	for (int i = 0; i < N; i++)
 		pai[i] = ii(-1, -1);
 	priority_queue <ii, vector <ii>, greater<ii> > pq;
