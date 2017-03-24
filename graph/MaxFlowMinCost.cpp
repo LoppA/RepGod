@@ -60,12 +60,14 @@ int dijkstra (int s, int t) {
 	bool ret = false;
 	while (pq.size()) {
 		int at = pq.top().se;
+		int d = pq.top().fi;
 		pq.pop();
 
-		if (at == t) {
+		if (at == t) 
 			ret = true;
-			break;
-		}
+
+		if (d != dist[at])
+			continue;
 
 		for (int i = 0; i < (int)g[at].size(); i++) {
 			edge edg = g[at][i];
@@ -81,7 +83,8 @@ int dijkstra (int s, int t) {
 	}
 
 	for (int i = 0; i < N; i++)
-		h[i] += dist[i];
+		if (h[i] < INF and dist[i] < INF)
+			h[i] += dist[i];
 
 	return ret;
 }
