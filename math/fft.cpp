@@ -1,4 +1,4 @@
-/* https://github.com/danft/CP_algs/blob/master/math/fft.cpp */
+/* emaxx implementation */
 
 #include <bits/stdc++.h>
 #define pb push_back
@@ -39,6 +39,7 @@ void fft (vector<base> & a, bool invert) {
 
 // a, b => coefs to multiply,  res => resulting coefs
 // a[0], b[0], res[0] = coef x^0
+// Dont work with negative coefs
 void multiply (const vector<int> & a, const vector<int> & b, vector<int> & res) {
 	vector<base> fa (a.begin(), a.end()),  fb (b.begin(), b.end());
 	size_t n=1;
@@ -50,6 +51,7 @@ void multiply (const vector<int> & a, const vector<int> & b, vector<int> & res) 
 		fa[i]*=fb[i];
 	fft (fa, true);
 	res.resize (n);
+	// avoid precision errors, mess up with negative values of coefs
 	for(size_t i=0; i<n; ++i)
 		res[i]=int(fa[i].real() + 0.5);
 }
