@@ -106,7 +106,7 @@ int main (void) {
 			dfs (i);
 	
 	//  if comp[x] == comp[not x] there is no answer
-	//	if there is a path from v to w, comp[v] < comp[w]
+	//	if there is a path from v to w, comp[v] > comp[w]
 	for (int i = 0; i < n; i++) 
 		if (comp[2*i] == comp[2*i + 1])
 			no ();
