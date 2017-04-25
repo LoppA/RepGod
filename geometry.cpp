@@ -9,7 +9,7 @@ using namespace std;
 
 typedef pair<int, int> ii;
 typedef long long ll;
-const double EPS = 1e-6;
+const double EPS = 1e-9;
 const double PI = acos(-1.0);
 
 ll gcd (ll a, ll b) {
@@ -259,6 +259,13 @@ public:
 	}
 
 };
+
+/* Get area of a nondegenerate triangle, with sides a, b, c
+*/
+double getAreaTriangle (double a, double b, double c) {
+	double p = (a + b + c)/2.0;
+	return sqrt (p * (p - a) * (p - b) * (p - c));
+}
 
 int main (void) {
 	ios_base::sync_with_stdio(false);
