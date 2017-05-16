@@ -1,3 +1,7 @@
+/*	pi[i]: length of the longest proper suffix of p[0..i-1](length i)
+	which is also proper prefix of p[0..i-1]
+*/
+
 #include <bits/stdc++.h>
 
 using namespace std;
