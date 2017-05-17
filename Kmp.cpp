@@ -1,5 +1,6 @@
-/*	pi[i]: length of the longest proper suffix of p[0..i-1](length i)
-	which is also proper prefix of p[0..i-1]
+/*	
+	border = proper prefix that is suffix
+	p[i] = length of longest border of prefix of length i, s[0...i-1]
 */
 
 #include <bits/stdc++.h>

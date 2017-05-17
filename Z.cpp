@@ -1,3 +1,7 @@
+/* 			{0, if i = 0
+	z[i] =  {length longest commom prefix of s and s[i...n-1]
+*/
+
 #include <bits/stdc++.h>
 
 using namespace std;
