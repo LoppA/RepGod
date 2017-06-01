@@ -11,7 +11,7 @@
 *	Todos os vertices alcancaveis por s no grafo residual final
 *	pertence a S o resto pertence a T
 *
-*	As arestas de MinCut sao todas que linhas S a T
+*	As arestas de MinCut sao todas que ligam S a T
 */
 
 #include <bits/stdc++.h>
@@ -92,16 +92,16 @@ int max_flow (int s, int t) {
 }
 
 bool vis[N];
-void find_MinCut (int at) {
+void find_MinCut (int at, int s) {
 	vis[at] = 1;
 
 	for (int i = 0; i < (int)g[at].size(); i++) {
 		edge edg = g[at][i];
 		int next = edg.to;
-		if (pai[next].fi == -1) 
+		if (pai[next].fi == -1 and next != s) 
 			cout << at << " " << next << endl;
 		else if (!vis[next])
-			find_MinCut (next);
+			find_MinCut (next, s);
 	}
 }
 
