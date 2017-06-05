@@ -1,100 +1,67 @@
-/* SPOJ SOLUTION: MKTHNUM
-	Persisten Segmentation Tree
-*/
-
 #include <bits/stdc++.h>
-
+ 
 using namespace std;
-
+ 
 #define pb push_back
 #define mk make_pair
 #define fi first
 #define se second
-
+ 
 typedef long long ll;
 typedef pair<int, int> ii;
 const int INF = 0x3f3f3f3f;
 const double PI = acos(-1.0);
-const double E = exp(1);
-
-const int N = 1e5 + 5;
-const int M = 7000000;
-int n, m;
-int a[N], d[N];
-
-int v[M], L[M], R[M], root[N];
-int nodes;
-
+ 
+const int N = 1e5 + 5, M = 3e7 + 7;
+int n, a[N];
+int root[N], nodes, L[M], R[M], seg[M];
+ 
 int build (int l, int r) {
-	int j = nodes++;
+	int at = nodes++;
+ 
 	if (l == r) {
-		v[j] = 0;
+		seg[at] = a[at];
 	} else {
 		int m = (l + r)/2;
-		L[j] = build(l, m);
-		R[j] = build(m+1, r);
-		v[j] = v[L[j]] + v[R[j]];
+		L[at] = build (l, m);
+		R[at] = build (m + 1, r);
+		seg[at] = seg[L[at]] + seg[R[at]];
 	}
-	return j;
+ 
+	return at;
 }
-
-int update (int i, int l, int r, int p, int c) {
-	int j = nodes++;
+ 
+/* point update, v[p]++ */
+int update (int i, int l, int r, int p) {
+	int at = nodes++;
+ 
 	if (l == r) {
-		v[j] = c;
+		seg[at] = seg[i] + 1;
 	} else {
 		int m = (l + r)/2;
 		if (p <= m) {
-			L[j] = update(L[i], l, m, p, c);
-			R[j] = R[i];
+			L[at] = update (L[i], l, m, p);
+			R[at] = R[i];
 		} else {
-			L[j] = L[i];
-			R[j] = update(R[i], m+1, r, p, c);
+			L[at] = L[i];
+			R[at] = update (R[i], m + 1, r, p);
 		}
-		v[j] = v[L[j]] + v[R[j]];
+		seg[at] = seg[L[at]] + seg[R[at]];
 	}
-	return j;
+ 
+	return at;
 }
-
-int mkquery (int a, int b, int l, int r, int c) {
-	if (l == r) {
-		return l;
+ 
+/* range query: v[A] + ... + v[B] */
+int A, B;
+int query (int i, int l, int r) {
+	if (A > B)	return 0;
+	if (r < A or l > B)	return 0;
+ 
+ 	if (l >= A and r <= B) {
+		return seg[i];
+	} else {
+		int m = (l + r)/2;
+		return query (L[i], l, m) + query (R[i], m + 1, r);
 	}
-
-	int nl = v[L[b]] - v[L[a]];
-	int m = (l+r)/2;
-	if (c <= nl) 
-		return mkquery(L[a], L[b], l, m, c);
-
-	return mkquery(R[a], R[b], m + 1, r, c - nl);
-}
-
-int main (void) {
-	ios_base::sync_with_stdio(false);
-
-	cin >> n >> m;
-	vector <ii> v;
-	for (int i = 1; i <= n; i++) {
-		cin >> a[i];
-		d[i] = a[i];
-		v.pb(mk(a[i],i));
-	}
-	sort(v.begin(), v.end());
-	for (int i = 0; i < n; i++) {
-		a[v[i].se] = i + 1;
-	}
-
-	root[0] = build(1, n);
-
-	for (int i = 1; i <= n; i++) 
-		root[i] = update (root[i-1], 1, n, a[i], 1);
-
-	while (m--) {
-		int a, b, c;
-		cin >> a >> b >> c;
-		int res = mkquery (root[a-1], root[b], 1, n, c);
-		cout << v[res-1].fi << endl;
-	}
-
-	return 0;
 }
