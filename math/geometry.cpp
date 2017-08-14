@@ -112,8 +112,8 @@ public:
 	/**/
 	Point rotaciona (double ang) {
 		double c = cos(ang), s = sin(ang);
-		double X = x*c + y*s;
-		double Y = x*(-1.0*s) + y*c;
+		double X = x*c - y*s;
+		double Y = x*s + y*c;
 		return Point(X,Y);
 	}
 
