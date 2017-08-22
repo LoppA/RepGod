@@ -36,6 +36,8 @@ void add (int i) {
 
 void go () {
 	int l = 0, r = 0;
+
+	add(0);
 	
 	for (int i = 0; i < v.size(); i++) {
 		ii p = v[i].fi;
