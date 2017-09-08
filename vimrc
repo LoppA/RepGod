@@ -4,6 +4,11 @@ set autoindent
 set tabstop=4
 set shiftwidth=4
 
+set showmatch
+set mouse=a
+
+set t_Co=256
+
 au BufNewFile ~/Directory/*.cpp 0r ~/TemplateDirectory/base.cpp
 
 function! NewJava()
