@@ -104,7 +104,7 @@ ii max_flow (int s, int t) {
 			edge &edg = g[pai[at].fi][pai[at].se];
 			edg.flow += f;
 			g[edg.to][edg.rid].flow -= f;
-			cost += edg.cost;
+			cost += edg.cost * f;
 		}
 	}
 
