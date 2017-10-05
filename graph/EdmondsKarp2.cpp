@@ -1,4 +1,4 @@
-/*  O (V^2 * E)
+/*  O (V * E^2)
 	Implementacao mais facil pra recuperar o flow
 *   
 *   MinCut tutorial:

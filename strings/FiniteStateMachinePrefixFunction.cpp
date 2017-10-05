@@ -18,7 +18,7 @@ appears at some fibonnaci string fk
 	Fibbonaci string: f0 = ''
 					  f1 = 'a'
 					  f2 = 'b'
-					  fi = fi-1 + fi-2
+					  fi = fi-2 + fi-1
 */
 
 #include <bits/stdc++.h>

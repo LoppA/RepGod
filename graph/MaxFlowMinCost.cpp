@@ -1,4 +1,4 @@
-/* O(V^2 * E * log(V))*/
+/* O(V * E^2 * log(V))*/
 
 #include <bits/stdc++.h>
 
