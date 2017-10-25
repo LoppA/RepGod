@@ -91,6 +91,8 @@ int cnt_str (string &p) {
 	int s_t = 0, vtx = 0;
 
 	while (s_t < (int)p.size()) {
+		if (!st[vtx].next.count(p[s_t]))
+			return 0;
 		vtx = st[vtx].next[p[s_t]];
 		s_t++;
 	}
@@ -119,8 +121,8 @@ int main (void) {
 	ios_base::sync_with_stdio(false);
 
 	sa_build();
-	cnt_build();
 
+	cnt_build();
 	string p;
 	cin >> p;
 	cout << cnt_str(p) << endl;
