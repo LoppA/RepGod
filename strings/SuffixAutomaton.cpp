@@ -62,6 +62,7 @@ using namespace std;
 #define se second
 
 typedef long long ll;
+const int INF = 0x3f3f3f3f;
 
 struct state {
 	int len;	// Length of Longest Suffix
@@ -221,6 +222,55 @@ namespace Smallest_cyclic_shift {
 		memset (dp, -1, sizeof dp);
 		go (0);
 		solve (0, slen);
+	}
+}
+
+/* Shorstest string (in length), then if multople has same length
+ * get the lexicographicaly smallest
+ * */
+namespace Shortest_not_included_string {
+	// find minimun not included string we can find
+	// from this state
+	int dp[2*N];
+	int go (int at) {
+		int &r = dp[at];
+		if (r != INF)	return r;
+
+		if (st[at].next.size() < 'Z' - 'A' + 1)
+			return r = 1;
+
+		for (auto it : st[at].next) 
+			r = min (r, go(it.se) + 1);
+
+		return r;
+	}
+
+	// find small lexicographically
+	// print answer
+	void solve (int at) {
+		for (char c = 'A'; c <= 'Z'; c++) {
+			if (!st[at].next.count(c)) {
+				cout << c;
+				return;
+			}
+		}
+
+		for (char c = 'A'; c <= 'Z'; c++) {
+			int nx = st[at].next[c];
+			if (dp[at] == dp[nx] + 1) {
+				cout << c;
+				solve (nx);
+				return;
+			}
+		}
+	}
+
+	void main () {
+		sa_build();
+		memset (dp, INF, sizeof dp);
+		go (0);
+		solve (0);
+		cout << endl;
 	}
 }
 
