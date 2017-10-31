@@ -71,7 +71,7 @@ struct state {
 	map <char, int> next;
 };
 
-const int N = 1e5 + 5;
+const int N = 3e5 + 5;
 state st[2*N];
 int sz, last;
 
@@ -271,6 +271,46 @@ namespace Shortest_not_included_string {
 		go (0);
 		solve (0);
 		cout << endl;
+	}
+}
+
+/* Longest commom prefix of two substrings
+ *
+ * b will be the base string, other string will be processed
+ *
+ * Find longest suffix of processed string that apears as
+ * a prefix [0 ... i] of b, for each i, using suffix links
+ * answer is the maximum in all steaps
+ * */
+namespace Longest_2_commom_substring {
+
+	void main () {
+		sa_build();
+		string b;	cin >> b;
+
+		int res = 0;
+		int at = 0, len = 0;
+
+		for (auto c : b) {
+			while (at and !st[at].next.count(c)) {
+				at = st[at].link;
+				len = st[at].len;
+				// in this case len will always decrease because
+				// len[link[p]] + 1 = minimal string length in class p
+				// so len[link[p]] < length we got at this time increasing,
+				// so this is the length of some string in at[j] class
+			}
+
+			// found some suffix with edge with label c
+			// otherwise we just got empty suffix
+			if (st[at].next.count(c)) {
+				at = st[at].next[c];
+				len++;
+			}
+			res = max (res, len);
+		}
+
+		cout << res << endl;
 	}
 }
 
