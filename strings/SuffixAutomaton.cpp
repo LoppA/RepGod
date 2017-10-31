@@ -142,6 +142,41 @@ namespace Number_of_different_substrings {
 	}
 }
 
+/* Pick smallest possible edge that we can 
+ * go to next state	*/
+namespace Kth_smallest_distinct_substring {
+	void go (int at, int k) {
+		if (k <= 0)	return;
+
+		for (auto it : st[at].next) {
+			ll dp = Number_of_different_substrings::dp[it.se];
+
+			if (dp >= k) {
+				cout << it.fi;
+				go (it.se, k - 1);
+				return;
+			} else {
+				k -= dp;
+			}
+		}
+	}
+
+	void main () {
+		sa_build();
+		memset (Number_of_different_substrings::dp, -1, 
+				sizeof Number_of_different_substrings::dp);
+		Number_of_different_substrings::go(0);
+
+		int T;	cin >> T;
+		while (T--) {
+			int k;	cin >> k;
+			// Print kth smallest substring
+			go (0, k);
+			cout << endl;
+		}
+	}
+}
+
 int main (void) {
 	ios_base::sync_with_stdio(false);
 
