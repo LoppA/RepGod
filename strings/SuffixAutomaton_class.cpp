@@ -130,10 +130,11 @@ struct SuffixAutomaton {
  *
  * Find longest suffix of each other string that apears as
  * a prefix [0 ... i] of b, for each i, using suffix links
- * Take the mininum at each step, (maximum commom substring for each i),
+ * Take the mininum of each processed string at each step, 
+ * (it is the maximum commom suffix for each prefix i), 
  * answer is the maximum in all steaps
  * */
-namespace Longest_commom_substring {
+namespace Longest_k_commom_substring {
 	const int K = 10;
 	SuffixAutomaton sa[K];
 	int at[K], len[K];
@@ -164,6 +165,8 @@ namespace Longest_commom_substring {
 					// so this is the length of some string in at[j] class
 				}
 
+				// found some suffix with edge with label c
+				// otherwise we just got empty suffix
 				if (sa[j].st[at[j]].next.count(c)) {
 					at[j] = sa[j].st[at[j]].next[c];
 					len[j]++;
