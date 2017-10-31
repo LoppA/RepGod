@@ -1,3 +1,57 @@
+/* Build Suffix Automata of string S
+ * aciclic graph where nodes are called states and edges
+ * between states have char labels, a path in the automata
+ * listing all edge labels defines a substring, all substrings
+ * are defined exactly once in the automata
+ *
+ * build time and space: O(N = length(S))
+ *
+ * Endpos(T): set of all positions where T ends in S
+ * 	if u is suffix of w -> Endpos(w) C Endpos(u)
+ * 	else				-> Endpos(w) /\ Endpos(u) = {}
+ *
+ * Same class: Endpos(u) == Endpos(v)
+ * sort all strings of same class, the of lengths difference between
+ * consective strings is 1, and one string is suffix of all others
+ * with greatest length
+ *
+ * Number of states is equal to the number of endpos classes
+ *
+ * Links
+ * 	w is the longest string in state v.
+ * 	suffix link of v is the state that contains the longest suffix of w
+ * 	that is in different endpos class
+ * 	Properties:
+ * 		minlen(v) = len(link(v)) + 1
+ * 		endpos(v) C (endpos(link(v))
+ *
+ *
+ * Construction of Suffix Automaton:
+ *	1: It is online, we construct by adding a single character to our 
+ *	previous string
+ *	2: Initial state: id = 0, len = 0, link = -1
+ *	3: Add a single caracter c to the end of the current line
+ *	4: Last is the state that corresponds to the entire line
+ *	before adding the symbol (initially Last = 0)
+ *	5: When adding a new caracter we will make state Cur
+ *	adding a new character increase the number of  endpos classes by 
+ *	at least 1 as no previous substring can end at the position of c
+ *	len(Cur) = len(Last) + 1
+ *   Finding suffix-link and modifing the tree, loop:
+ *   Find suffix of Last with edge with label c, (it points to suffix of Cur).
+ *    1: we are at node Last, we add edge between Last and Cur with label c
+ *    and move to suffix link of Last, until we reach state 0 or if edge
+ *    with label c already exists
+ *    2: if at some state P, edge with label c already exists, we stop at P.
+ *    Q is the state connected to P via c. Q needs to be suffix of Cur.
+ *     - if len(P) + 1 == len(Q), link(Cur) = Q, break
+ *     - otherwise we have to create a clone of state Q with everithing
+ *     the same, except for len(Clone) = len(p) + 1 ans assing
+ *     link(Cur) = Clone, assigin edge with label c, fora all
+ *     P in suffix tree to Clone, break
+ *    3: if 2 never happened, we are at dummy state -1, assing link(Cur) = 0
+ * */
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -7,9 +61,12 @@ using namespace std;
 #define fi first
 #define se second
 
+typedef long long ll;
+
 struct state {
-	int len, link;
-	int fpos;
+	int len;	// Length of Longest Suffix
+	int link;	// Suffix Link of the state
+	int fpos;	// First element in endpos of this state, endpos.begin()
 	map <char, int> next;
 };
 
@@ -30,8 +87,7 @@ void sa_init() {
 void sa_extend (char c) {
 	int cur = sz++;
 	st[cur].len = st[last].len + 1;
-	// fpos
-	st[cur].fpos = st[cur].len - 1;
+	st[cur].fpos = st[cur].len - 1;	//fpos
 	int p;
 	for (p = last; p != -1 and !st[p].next.count(c); p = st[p].link)
 		st[p].next[c] = cur;
@@ -46,8 +102,7 @@ void sa_extend (char c) {
 			st[clone].len = st[p].len + 1;
 			st[clone].next = st[q].next;
 			st[clone].link = st[q].link;
-			// fpos
-			st[clone].fpos = st[q].fpos;
+			st[clone].fpos = st[q].fpos;	//fpos
 			for (; p != -1 and st[p].next[c] == q; p = st[p].link)
 				st[p].next[c] = clone;
 			st[q].link = st[cur].link = clone;
@@ -61,6 +116,30 @@ void sa_build() {
 	string s;	cin >> s;
 	for (int i = 0; i < (int)s.size(); i++)
 		sa_extend(s[i]);
+}
+
+/* Find the number of diffrent paths with is equal to the number
+ * of different substrings	*/
+namespace Number_of_different_substrings {
+	ll dp[2*N];
+
+	ll go (int at) {
+		ll &r = dp[at];
+		if (r != -1)	return r;
+
+		r = 1;
+		for (auto it : st[at].next) 
+			r += go (it.se);
+
+		return r;
+	}
+
+	void main () {
+		sa_build();
+		memset (dp, -1, sizeof dp);
+		// decrease 1 to disconsider empty substring
+		cout << go (0) - 1LL << endl;
+	}
 }
 
 int main (void) {
