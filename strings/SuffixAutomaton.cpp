@@ -177,6 +177,53 @@ namespace Kth_smallest_distinct_substring {
 	}
 }
 
+/* Suffix automaton over s + s, find smallest substring with len = len(s) */
+namespace Smallest_cyclic_shift {
+	int slen;
+	void sa_build() {
+		sa_init();
+		string s;	cin >> s;
+		slen = s.size();
+		s += s;
+		for (int i = 0; i < (int)s.size(); i++)
+			sa_extend(s[i]);
+	}
+
+	// Find maximun length we can get starting by state "at"
+	int dp[2*N];
+	int go (int at) {
+		int &r = dp[at];
+		if (r != -1)	return r;
+
+		r = 1;
+		for (auto it : st[at].next)
+			r = max (r, go (it.se) + 1);
+		return r;
+	}
+
+	void solve (int at, int len) {
+		if (!len) {
+			// one based
+			cout << (st[at].fpos - slen + 1) + 1 << endl;
+			return;
+		}
+
+		// pass though edges in label order
+		for (auto it : st[at].next) 
+			if (dp[it.se] >= len - 1) {
+				solve (it.se, len - 1);
+				return;
+			}
+	}
+
+	void main () {
+		sa_build();
+		memset (dp, -1, sizeof dp);
+		go (0);
+		solve (0, slen);
+	}
+}
+
 int main (void) {
 	ios_base::sync_with_stdio(false);
 
