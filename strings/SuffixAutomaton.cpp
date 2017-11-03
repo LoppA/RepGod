@@ -61,6 +61,7 @@
  *  Shortest_not_included_string
  *  Longest_2_commom_substring
  *  Number_of_occurrences
+ *  Position_first_occurrence 
  *  Position_of_all_occurrences
  * */
 
@@ -417,6 +418,40 @@ namespace Number_of_occurrences {
 		while (q--) {
 			string p;	cin >> p;
 			cout << get (p) << endl;
+		}
+	}
+}
+
+/* Note: Another way of doing it is: getting the state, then calculate
+ * using dynamic programming the biggest length to the last node, answer
+ * is text.length() - dp[at] + 1
+ *
+ * Find the state of the substring,
+ * answer is the first element of endpos (fpos) - length of substring + 1
+ * */
+namespace Position_first_occurrence {
+
+	int get (string &p) {
+		int at = 0;
+
+		for (auto c : p) {
+			if (!st[at].next.count(c)) {
+				return -1;
+			} else {
+				at = st[at].next[c];
+			}
+		}
+
+		return st[at].fpos - p.size() + 1;
+	}
+
+	void main() {
+		sa_build();
+
+		int q;	cin >> q;
+		while (q--) {
+			string p;	cin >> p;
+			cout << get(p) << endl;
 		}
 	}
 }
