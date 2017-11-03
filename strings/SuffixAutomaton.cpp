@@ -50,6 +50,16 @@
  *     link(Cur) = Clone, assigin edge with label c, fora all
  *     P in suffix tree to Clone, break
  *    3: if 2 never happened, we are at dummy state -1, assing link(Cur) = 0
+ *
+ *
+ * Summary:
+ *  Contains_substring
+ *  Number_of_different_substrings
+ *  Kth_smallest_distinct_substring
+ *  Smallest_cyclic_shift
+ *  Shortest_not_included_string
+ *  Longest_2_commom_substring
+ *  Number_of_ocurrences
  * */
 
 #include <bits/stdc++.h>
@@ -117,6 +127,35 @@ void sa_build() {
 	string s;	cin >> s;
 	for (int i = 0; i < (int)s.size(); i++)
 		sa_extend(s[i]);
+}
+
+/* Just walk through the automata */
+namespace Contains_substring {
+	bool go (string &p) {
+		int at = 0;
+
+		for (auto c : p) 
+			if (!st[at].next.count(c))
+				return false;
+			else
+				at = st[at].next[c];
+
+		return true;
+	}
+
+	void main () {
+		sa_build();
+
+		int q;	cin >> q;
+		while (q--) {
+			string p;	cin >> p;
+
+			if (go(p))
+				cout << 'Y' << endl;
+			else
+				cout << 'N' << endl;
+		}
+	}
 }
 
 /* Find the number of diffrent paths with is equal to the number
