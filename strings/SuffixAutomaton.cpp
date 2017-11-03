@@ -7,7 +7,8 @@
  * build time and space: O(N = length(S))
  *
  * Endpos(T): set of all positions where T ends in S
- * 	if u is suffix of w -> Endpos(w) C Endpos(u)
+ * 	if u is suffix of w -> Endpos(w) C Endpos(u), 
+ * 	Endpos(w) is contained inside Endpos(u)
  * 	else				-> Endpos(w) /\ Endpos(u) = {}
  *
  * Same class: Endpos(u) == Endpos(v)
@@ -59,7 +60,8 @@
  *  Smallest_cyclic_shift
  *  Shortest_not_included_string
  *  Longest_2_commom_substring
- *  Number_of_ocurrences
+ *  Number_of_occurrences
+ *  Position_of_all_occurrences
  * */
 
 #include <bits/stdc++.h>
@@ -361,7 +363,7 @@ namespace Longest_2_commom_substring {
  * of a suffix, (all suffixes are terminal states, terminal
  * state is the last state and his link path, suffixes of it)
  * */
-namespace Number_of_ocurrences {
+namespace Number_of_occurrences {
 	int dp[2*N];
 	int terminal[2*N];
 
@@ -419,8 +421,77 @@ namespace Number_of_ocurrences {
 	}
 }
 
+/* OBS: Total number of occurrences can be calculated this way too
+ *
+ * Position of all occurrences of a pathen p in a text,
+ * O(sizeof(text) + number of occurrences of the patterns), 
+ *
+ * Build the tree of edges from link[node] to node, find state
+ * corresponding to the pattern, go through the tree (go from at to
+ * next means, at is suffix of next, endpos(next) is countained in endpos(at)
+ * and size(endpos(at)) = size(endpos(next)) + 1), them set of first occurrence of
+ * all states are the position of all occurrences of the pattern
+ * */
+namespace Position_all_occurrences {
+	vector <int> res;
+	vector <int> g[2*N];
+	string p;
+
+	/* Build suffix link tree */
+	void build_tree () {
+		for (int i = 1; i <= last; i++)
+			g[st[i].link].pb(i);
+	}
+
+	/* Use bfs to avoid memory limit */
+	void go (int beg) {
+		queue <int> q;
+		q.push(beg);
+
+		while (q.size()) {
+			int at = q.front();
+			q.pop();
+			// index of pattern p as suffix of the first occurrence
+			// of state next
+			res.pb(st[at].fpos - p.size() + 1);
+
+			for (auto next : g[at])
+				q.push(next);
+		}
+	}
+
+	/* get the state, to go throgh tree next*/
+	void get () {
+		int at = 0;
+
+		for (auto c : p) 
+			if (!st[at].next.count(c)) 
+				return;
+			else 
+				at = st[at].next[c];
+
+		go (at);
+	}
+
+	void main () {
+		sa_build();
+		build_tree();
+
+		int q;	cin >> q;
+		while (q--) {
+			res.clear();
+			cin >> p;
+			get();
+
+			cout << res.size() << endl;
+			for (auto it : res)
+				cout << it << " ";
+			cout << endl;
+		}
+	}
+}
+
 int main (void) {
-	ios_base::sync_with_stdio(false);
 
 	return 0;
 }
