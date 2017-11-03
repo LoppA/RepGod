@@ -314,6 +314,72 @@ namespace Longest_2_commom_substring {
 	}
 }
 
+/* Find substrings number of occurrences
+ *
+ * Same class have the same number of occurrences
+ *
+ * Algorithm: count number of times a state is prefix
+ * of a suffix, (all suffixes are terminal states, terminal
+ * state is the last state and his link path, suffixes of it)
+ * */
+namespace Number_of_ocurrences {
+	int dp[2*N];
+	int terminal[2*N];
+
+	// mark terminal states
+	void mark () {
+		memset (terminal, 0, sizeof terminal);
+		int at = last;
+
+		while (at != -1) {
+			terminal[at] = true;
+			at = st[at].link;
+		}
+	}
+
+	// calculate
+	int go (int at) {
+		int &r = dp[at];
+		if (r != -1)	return r;
+
+		r = terminal[at];
+
+		for (auto it : st[at].next) 
+			r += go (it.se);
+
+		return r;
+	}
+
+	// get answer for a pattern p
+	int get (string &p) {
+		int at = 0;
+
+		for (auto c : p) {
+			if (!st[at].next.count(c)) {
+				// pattern not found
+				return 0;
+			} else {
+				at = st[at].next[c];
+			}
+		}
+
+		return dp[at];
+	}
+
+	void main () {
+		sa_build();
+		mark();
+		memset (dp, -1, sizeof dp);
+		go (0);
+
+		int q;	cin >> q;
+		while (q--) {
+			string p;	cin >> p;
+			cout << get (p) << endl;
+		}
+	}
+}
+
 int main (void) {
 	ios_base::sync_with_stdio(false);
 
