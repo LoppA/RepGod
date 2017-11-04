@@ -71,7 +71,7 @@ int main (void) {
 	}
 
 	int len = 0, center = 0;
-	for (int i = 1; i < n - 1; i++) 
+	for (int i = 0; i < n; i++) 
 		if (p[i] > len) {
 			len = p[i];
 			center = i;
