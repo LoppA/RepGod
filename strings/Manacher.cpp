@@ -77,7 +77,15 @@ int main (void) {
 			center = i;
 		}
 
+	/* not tested */
+	string res;
+	for (int i = 0; i < n; i++)
+		if (i >= center - len and i <= center + len and s[i] != '#')
+			res += s[i];
+	/* */
+
 	cout << len << endl;
+	cout << res << endl;
 
 	return 0;
 }
