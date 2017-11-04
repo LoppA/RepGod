@@ -44,29 +44,26 @@ int main (void) {
 	ios_base::sync_with_stdio(false);
 
 	string s, t;	cin >> t;
-	s += "^#";
+	s += "#";
 	for (auto c : t) {
 		s += c;
 		s += '#';
 	}
-	s += "#$";
 
 	int n = s.size();
-	int c = 1, r = 0;
-	for (int i = 1; i < n - 1; i++) {
+	int c = 0, r = 0;
+	for (int i = 0; i < n; i++) {
 		int i_mirror = c - (i - c);
 		
-		// symmetricity holds
-		if (i + p[i_mirror] <= r) 
-			p[i] = p[i_mirror];
+		if (i <= r)
+			p[i] = min (p[i_mirror], r - i);
 		else
 			p[i] = 0;
 
-		// if doenst holds, calculates value
-		while (s[i + 1 + p[i]] == s[i - 1 - p[i]]) 
+		while (i - 1 - p[i] >= 0 and i + 1 + p[i] < n and s[i + 1 + p[i]] == s[i - 1 - p[i]]) {
 			p[i]++;
+		}
 
-		// move center and border
 		if (i + p[i] > r) {
 			c = i;
 			r = i + p[i];
@@ -80,13 +77,7 @@ int main (void) {
 			center = i;
 		}
 
-	string res;
-	for (int i = 1; i < n - 1; i++) 
-		if (i >= center - len and i <= center + len and s[i] != '#') 
-			res += s[i];
-
 	cout << len << endl;
-	cout << res << endl;
 
 	return 0;
 }
