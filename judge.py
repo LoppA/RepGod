@@ -9,5 +9,9 @@ for i in range (1, 23) :
 	os.system(cmd)
 	cmd = 'diff ' + output_file + ' out >diff'
 	os.system(cmd)
+        print ('Judging test case ' + str(i))
 	if (os.stat("diff").st_size != 0) :
-		print ('WA on test case ' + str(i))
+	    print ('\tNO')
+        else
+	    print ('\tOK')
+            
