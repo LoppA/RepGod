@@ -127,7 +127,7 @@ public:
 		return abs(area/2.0);
 	}
 
-	/**/
+	/* return counter clock points of convex hull*/
 	static vector <Point> convex_hull (vector <Point> p) {
 		if (p.size() <= 2) return p;
 
