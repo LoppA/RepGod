@@ -35,6 +35,10 @@ public:
 		m[1][1] = 1;
 	}
 
+	/*
+	 * a b
+	 * c d
+	 * */
 	mat (ll a, ll b, ll c, ll d) {
 		m[0][0] = a;
 		m[0][1] = b;
