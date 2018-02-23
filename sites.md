@@ -1,6 +1,6 @@
 - Problem Set
 
-[Link Text](https://a2oj.com/ladders)
+https://a2oj.com/ladders
 
 www.spoj.com
 
@@ -16,7 +16,7 @@ https://www.hackerrank.com/contests
 
 - Short Contest
 
-codeforces.com
+www.codeforces.com
 
 https://atcoder.jp
 
