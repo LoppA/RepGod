@@ -2,7 +2,7 @@
 
 [Codeforces Ladders (A2OJ)](https://a2oj.com/ladders)
 
-[SPOJ](https://www.spoj.com)
+[SPOJ](http://www.spoj.com)
 
 ------------
 
@@ -16,7 +16,7 @@
 
 - Short Contest
 
-[Codeforces](https://codeforces.com)
+[Codeforces](http://www.codeforces.com)
 
 [AtCoder](https://atcoder.jp)
 
