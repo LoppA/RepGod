@@ -2,22 +2,22 @@
 
 [Codeforces Ladders (A2OJ)](https://a2oj.com/ladders)
 
-www.spoj.com
+[SPOJ](www.spoj.com)
 
 ------------
 
 - Long Contest
 
-https://www.codechef.com
+[Codechef](https://www.codechef.com)
 
-https://www.hackerrank.com/contests
+[HackerRank](https://www.hackerrank.com/contests)
 
 ------------
 
 - Short Contest
 
-www.codeforces.com
+[Codeforces](codeforces.com)
 
-https://atcoder.jp
+[AtCoder](https://atcoder.jp)
 
-https://csacademy.com
+[CSAcademy](https://csacademy.com)
