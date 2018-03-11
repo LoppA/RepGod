@@ -41,21 +41,29 @@ public:
 	}
 
 	//Produto vetorial
+	// p^q = |p|*|q|*sin(ang)	ang: directed ang from p to q(-PI < ang <= PI)
+	// p^q = 0 => ang = 0 or PI, p and q are colinear
+	// p^q > 0 => 0 < ang < PI / p^q < 0 => -PI < ang < 0
+	// p^q = directed area of paralelogram formed by vectors p and q
 	double operator ^ (const Point &b) const {
 		return (this->x * b.y) - (this->y * b.x); 
 	}
 
 	//Produto escalar
+	// p*q = |p|*|q|*cos(ang)	ang: inner ang (0 <= ang < PI)
+	// p*q = 0 => ang = 90 / p*q > 0 => ang < 90 / p*q < 0 => ang > 90
+	// p*p = |p|^2  => |p| = sqrt(p*p)
+	// p*q is the directed length of projection of p on q
 	double operator * (const Point &b) const {
 		return (this->x * b.x) + (this->y * b.y);
 	}
 
 	/**/
-	Point operator * (double k) {
+	Point operator * (double k) const {
 		return Point (x*k, y*k);
 	}
 
-	Point operator / (double k) {
+	Point operator / (double k) const {
 		if (k == 0.0) cout << "Class Point (operador /): divisao por zero" << endl;
 		return Point (x/k, y/k);
 	}
@@ -71,46 +79,55 @@ public:
 	}
 
 	/**/
-	double len () {
+	double len () const {
 		return sqrt (x*x + y*y);
 	}
 
+	double dpp2 (const Point &b) const {
+		return ((*this)-b)*((*this)-b);
+	}
+
 	/*Distancia ponto a ponto*/
-	double dpp (const Point &b) {
+	double dpp (const Point &b) const {
 		return ((*this)-b).len();
 	}
 
-	/*Projecao*/
-	double proj (Point &b) {
+	/*Oriented relative length of projection of this over b*/
+	double relative_proj (Point &b) const {
 		return ((*this)*b)/(b.len()*b.len());
 	}
 
-	Point norm () {
+	Point norm () const {
 		return Point (x/this->len(), y/this->len());
 	}
 
 	/*Retorna o vetor perpendicular ao vetor (0,0) -> (Point)
 	Sentido clockwise*/
-	Point perp () {
+	Point perp () const {
 		return Point (this->y, -1.0 * this->x);
 	}
 
 	// Distancia do ponto p ao segmento ab, tambem retorna por 
 	// referencia o ponto (c) do segmento mais perto de p
-	double distToLine (const Point a, const Point b, Point& c) {
+	double distToSegment (const Point a, const Point b, Point &c) const {
 		// formula: c = a + u * ab
 		Point p = *this;
 		if (a == b) return p.dpp(a);
 		Point ap = Point(p - a), ab = Point(b - a);
-		double u = ap.proj(ab);
+		double u = ap.relative_proj(ab);
 		if (u < 0.0) u = 0.0;
 		if (u > 1.0) u = 1.0;
 		c = a + ab * u;
 		return p.dpp(c);
 	}
 
+	// Projection of this over v
+	Point proj (const Point &v) const {
+		return v*((*this)*v);
+	}
+
 	/**/
-	Point rotaciona (double ang) {
+	Point rotaciona (double ang) const {
 		double c = cos(ang), s = sin(ang);
 		double X = x*c - y*s;
 		double Y = x*s + y*c;
@@ -156,7 +173,7 @@ public:
 	 se paralelo ao eixo y retorna (0,1) ou (0,-1)
 	 SÓ FUNCIONA PARA PONTOS INTEIROS*/ 
 	static ii ang (Point p) {
-		int a = p.x, b = p.y;
+		ll a = p.x, b = p.y;
 		if (a == 0) return mk(0, b/abs(b));
 		else if (b == 0) return mk(a/abs(a), 0);
 		return mk(a/gcd(a,b), b/gcd(a,b));
@@ -211,6 +228,35 @@ public:
 
 		return at;
 	}
+
+	// distance of 2 farthest points. O(n) + O(convex_hull)
+	// Rotating Calipers
+	static double maximal_distance (vector <Point> p) {
+		double ret = 0;
+		p = Point::convex_hull(p);
+
+		int n = p.size();
+		if (n <= 1)
+			return 0;
+		if (n == 2)
+			return p[0].dpp(p[1]);
+
+		int at = 1;
+		for (int i = 0; i < n; i++) {
+			int j = (i + 1)%n;
+
+			Point v = p[j] - p[i];
+			int nxt = (at + 1)%n;
+			while (nxt != i and (v^(p[nxt]-p[i])) >= (v^(p[at]-p[i]))) {
+				at = nxt;
+				nxt = (at + 1)%n;
+			}
+
+			ret = max (ret, max (p[i].dpp(p[at]), p[j].dpp(p[at])));
+		}
+
+		return ret;
+	}
 };
 
 ostream &operator<<(ostream &os, Point const &p) {
@@ -260,8 +306,7 @@ public:
 
 };
 
-/* Get area of a nondegenerate triangle, with sides a, b, c
-*/
+/* Get area of a nondegenerate triangle, with sides a, b, c */
 double getAreaTriangle (double a, double b, double c) {
 	double p = (a + b + c)/2.0;
 	return sqrt (p * (p - a) * (p - b) * (p - c));
