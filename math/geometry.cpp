@@ -45,6 +45,7 @@ public:
 	// p^q = 0 => ang = 0 or PI, p and q are colinear
 	// p^q > 0 => 0 < ang < PI / p^q < 0 => -PI < ang < 0
 	// p^q = directed area of paralelogram formed by vectors p and q
+	// list point p to line ab = ||ab^p|| / ||ab||
 	double operator ^ (const Point &b) const {
 		return (this->x * b.y) - (this->y * b.x); 
 	}
@@ -231,7 +232,7 @@ public:
 
 	// distance of 2 farthest points. O(n) + O(convex_hull)
 	// Rotating Calipers
-	static double maximal_distance (vector <Point> p) {
+	static double max_dist (vector <Point> p) {
 		double ret = 0;
 		p = Point::convex_hull(p);
 
@@ -256,6 +257,65 @@ public:
 		}
 
 		return ret;
+	}
+
+	static bool compy (const Point &a, const Point &b) {
+		if (a.y != b.y)	return a.y < b.y;
+		return a.x < b.x;
+	}
+
+	static void min_dist (const Point &p, const vector <Point> &v, int i, double &d) {
+		while (i < (int)v.size() and v[i].y - p.y < d) {
+			d = min (d, p.dpp(v[i]));
+			i++;
+		}
+	}
+
+	static vector <Point> min_dist (const vector <Point> &p, int l, int r, double &d) {
+		vector <Point> ret;
+		if (l == r)	{
+			ret.pb(p[l]);
+			return ret;
+		}
+		int mid = (l + r)>>1;
+
+		vector <Point> L = min_dist (p, l, mid, d);
+		vector <Point> R = min_dist (p, mid + 1, r, d);
+
+		vector <Point> vl, vr;
+		for (auto it : L) 
+			if (p[mid].x - it.x < d)
+				vl.pb(it);
+
+		for (auto it : R) 
+			if (it.x - p[mid + 1].x < d)
+				vr.pb(it);
+
+		int i = 0, j = 0;
+
+		while (i < (int)vl.size() and j < (int)vr.size()) {
+			if (vl[i].y < vr[j].y) {
+				min_dist (vl[i], vr, j, d);
+				i++;
+			} else {
+				min_dist (vr[j], vl, i, d);
+				j++;
+			}
+		}
+
+		ret.resize(r - l + 1);
+		merge (L.begin(), L.end(), R.begin(), R.end(),
+				ret.begin(), compy);
+		return ret;
+	}
+
+	static double min_dist (vector <Point> p) {
+		if (p.size() <= 1)	return 0.0;
+		sort (p.begin(), p.end());
+
+		double dist = p[0].dpp(p[1]);
+		min_dist (p, 0, p.size() - 1, dist);
+		return dist;
 	}
 };
 
@@ -303,7 +363,6 @@ public:
 
 		return ret;
 	}
-
 };
 
 /* Get area of a nondegenerate triangle, with sides a, b, c */
