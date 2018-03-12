@@ -259,6 +259,7 @@ public:
 		return ret;
 	}
 
+//	** MIN DIST BEGIN	O(N*LOG2(N))	N = number of points
 	static bool compy (const Point &a, const Point &b) {
 		if (a.y != b.y)	return a.y < b.y;
 		return a.x < b.x;
@@ -309,6 +310,7 @@ public:
 		return ret;
 	}
 
+	// PUBLIC
 	static double min_dist (vector <Point> p) {
 		if (p.size() <= 1)	return 0.0;
 		sort (p.begin(), p.end());
@@ -317,6 +319,7 @@ public:
 		min_dist (p, 0, p.size() - 1, dist);
 		return dist;
 	}
+//	** MIN DIST END
 };
 
 ostream &operator<<(ostream &os, Point const &p) {
