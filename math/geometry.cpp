@@ -145,7 +145,8 @@ public:
 		return abs(area/2.0);
 	}
 
-	/* return counter clock points of convex hull*/
+	/* return counter clock points of convex hull
+	 * WITHOUT COLINEAR POINTS*/
 	static vector <Point> convex_hull (vector <Point> p) {
 		if (p.size() <= 2) return p;
 
@@ -320,6 +321,82 @@ public:
 		return dist;
 	}
 //	** MIN DIST END
+
+//	** MAX A*X + B*Y	BEGIN
+	static double max_ab (const vector <Point> &p, int bot, int top, const Point &ab) {
+		if (bot > top)	return -1e18;
+		double ret = max (ab*p[bot], ab*p[top]);
+		top--;
+
+		while (bot <= top) {
+			int mid = (bot + top)>>1;
+
+			ret = max (ret, max(p[mid]*ab, p[mid+1]*ab));
+
+			if (p[mid]*ab > p[mid+1]*ab) {
+				top = mid - 1;
+			} else {
+				bot = mid + 1;
+			}
+		}
+
+		return ret;
+	}
+
+	static double max_ab (const vector <Point> &p, const Point &ab) {
+		int n = p.size();
+
+		if (n < 10) {
+			double ret = ab*p[0];
+			for (int i = 1; i <= n; i++)
+				ret = max(ret, ab*p[i]);
+			return ret;
+		}
+
+		Point perp = ab.perp();
+
+		int split = 0;
+		int bot = 0, top = n - 1;
+
+		double dir = perp^(p[1]-p[0]);
+		if (!dir) {
+			bot = 1;
+			dir = perp^(p[2]-p[0]);
+		}
+
+		if (dir > 0)
+			dir = 1;
+		else 
+			dir = -1;
+
+		while (bot <= top) {
+			int mid = (bot + top)>>1;
+
+			if ((perp^(p[mid]-p[0])) * dir > 0) {
+				bot = mid + 1;
+				split = mid;
+			} else {
+				top = mid - 1;
+			}
+		}
+
+		return max (max_ab(p, 0, split, ab), max_ab(p, split + 1, n, ab));
+	}
+
+	// PUBLIC
+	// O(convex_hull(p)) + ab.size()*log2(p.size())
+	static vector <double> max_ab (vector <Point> p, const vector <Point> &ab) {
+		// convex_hull WITHOUT COLINEAR POINTS
+		p = Point::convex_hull(p);
+		vector <double> ans(ab.size());
+
+		int n = ab.size();
+		for (int i = 0; i < n; i++) 
+			ans[i] = max_ab(p, ab[i]);
+
+		return ans;
+	}
+//	** MAX A*X + B*Y	END
 };
 
 ostream &operator<<(ostream &os, Point const &p) {
