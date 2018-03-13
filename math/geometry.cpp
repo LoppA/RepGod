@@ -273,6 +273,7 @@ public:
 		}
 	}
 
+	// divide and conquer
 	static vector <Point> min_dist (const vector <Point> &p, int l, int r, double &d) {
 		vector <Point> ret;
 		if (l == r)	{
@@ -323,6 +324,7 @@ public:
 //	** MIN DIST END
 
 //	** MAX A*X + B*Y	BEGIN
+	// ternary search
 	static double max_ab (const vector <Point> &p, int bot, int top, const Point &ab) {
 		if (bot > top)	return -1e18;
 		double ret = max (ab*p[bot], ab*p[top]);
@@ -369,6 +371,7 @@ public:
 		else 
 			dir = -1;
 
+		// normal divides the convex hull, to get 2 ranges where ternary search is possible
 		while (bot <= top) {
 			int mid = (bot + top)>>1;
 
@@ -410,7 +413,7 @@ public:
 
 	Circle () {}
 
-	Circle (Point c, double r) : c(c), r(r) {}
+	Circle (const Point &c, double r) : c(c), r(r) {}
 
 	/*Interseccao de dois circulos
 	OBS: se ha infinitas interseccoes retorna o vetor vazio
@@ -442,6 +445,58 @@ public:
 		ret.pb(Point(x,y));
 
 		return ret;
+	}
+
+	// Circumcircle of a triangle, TAKE CARE WITH 3 COLINEAR POINTS
+	static Circle circumcircle (const Point &a, const Point &b, const Point &c) {
+		Point ab = b - a, bc = c - b;
+		Point mab = a + ab * 0.5;
+		Point mbc = b + bc * 0.5;
+
+		double a1 = ab.x, b1 = ab.y;
+		double c1 = -a1 * mab.x - b1 * mab.y;
+		
+		double a2 = bc.x, b2 = bc.y;
+		double c2 = -a2 * mbc.x - b2 * mbc.y;
+		
+		double den = a1 * b2 - a2 * b1;
+
+		double x = (-c1 * b2 + b1 * c2)/den;
+		double y = (-c2 * a1 + a2 * c1)/den;
+		
+		Point center(x, y);
+		return Circle(center, (a-center).len());
+	}
+
+	// Randomize O(p.size())
+	// Return circle that covers all point in p with minimum radius
+	// Idea: if some point pt is outside of current circle, make new circle with previous points
+	// in circle, this circle will have point pt on the border
+	// With 3 points on the border its easy to get the circle (Circumcicle)
+	static Circle cover (vector <Point> p, vector <Point> border = vector <Point>()) {
+		random_shuffle(p.begin(), p.end());
+
+		Circle res;
+		if (border.size() == 0) 
+			res = Circle(p[0], 0.0);
+		else if (border.size() == 1) 
+			res = Circle(border[0], 0.0);
+		else if (border.size() == 2)
+			res = Circle((border[0] + border[1])*0.5, (border[0].dpp(border[1]))/2.0);
+		else 
+			return circumcircle (border[0], border[1], border[2]);
+
+		vector <Point> p2;
+		for (auto pt : p) {
+			if (res.c.dpp(pt) > res.r) {
+				border.pb(pt);
+				res = cover (p2, border);
+				border.pop_back();
+			}
+			p2.pb(pt);
+		}
+
+		return res;
 	}
 };
 
