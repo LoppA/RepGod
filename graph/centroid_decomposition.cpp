@@ -17,6 +17,7 @@ vector <int> g[N];
 int n, sub[N];
 bool cent[N];
 
+// Calcula sub
 int dfs (int at, int pai) {
 	sub[at] = 1;
 
@@ -28,6 +29,7 @@ int dfs (int at, int pai) {
 	return sub[at];
 }
 
+// acha centroid
 int find_centroid (int at, int pai, int total) {
 	int mx = 0;
 
@@ -45,13 +47,13 @@ int find_centroid (int at, int pai, int total) {
 			return find_centroid (next, at, total);
 	}
 
-	return 0;
+	return -1;
 }
 
 void go (int at) {
-	int total = dfs (at, 0);
-	at = find_centroid (at, 0, total);
-	if (!at)	return;
+	int total = dfs (at, -1);
+	at = find_centroid (at, -1, total);
+	if (at == -1)	return;
 	cent[at] = 1;
 
 	// centroid eh o at agora
@@ -65,6 +67,7 @@ void go (int at) {
 }
 
 int main (void) {
+	ios_base::sync_with_stdio(false);
 
 	return 0;
 }
