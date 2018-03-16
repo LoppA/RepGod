@@ -527,6 +527,7 @@ namespace Position_all_occurrences {
 }
 
 int main (void) {
+	ios_base::sync_with_stdio(false);
 
 	return 0;
 }
