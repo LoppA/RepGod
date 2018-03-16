@@ -526,6 +526,72 @@ namespace Position_all_occurrences {
 	}
 }
 
+/*number of differente substrings in a that are not
+ * in b*/
+namespace in_a_not_in_b {
+	void sa_build() {
+		sa_init();
+		string a, b;	cin >> a >> b;
+		string s = a + '#' + b + '$';
+		for (int i = 0; i < (int)s.size(); i++)
+			sa_extend(s[i]);
+	}
+
+	int a[2*N], b[2*N];
+
+	// a[at] marks if state at belongs to string a
+	int finda(int at) {
+		int &r = a[at];
+		if (r != -1)	return r;
+		r = 0;
+
+		for (auto next : st[at].next) {
+			if (next.fi == '#')	r = 1;
+			if (finda(next.se))	r = 1;
+		}
+
+		return r;
+	}
+
+	// a[at] marks if state at belongs to string b
+	int findb(int at) {
+		int &r = b[at];
+		if (r != -1)	return r;
+		r = 0;
+
+		for (auto next : st[at].next) {
+			if (next.fi == '#')	continue;
+			if (next.fi == '$')	r = 1;
+			if (findb(next.se))	r = 1;
+		}
+
+		return r;
+	}
+
+	// just count how many strings are in a but no in b
+	ll dp[2*N];
+	ll go(int at) {
+		ll &r = dp[at];
+		if (r != -1)	return r;
+
+		r = a[at] and !b[at];
+		for (auto next : st[at].next) 
+			r += go(next.se);
+
+		return r;
+	}
+
+	void main() {
+		sa_build();
+		memset(a, -1, sizeof a);
+		finda(0);
+		memset(b, -1, sizeof b);
+		findb(0);
+		memset(dp, -1, sizeof dp);
+		cout << go(0) << endl;
+	}
+}
+
 int main (void) {
 	ios_base::sync_with_stdio(false);
 
