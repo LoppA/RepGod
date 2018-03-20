@@ -1,3 +1,6 @@
+// https://github.com/miskcoo/oicode/blob/master/spoj/MOD.cpp
+// http://www.spoj.com/problems/MOD/
+// https://e-maxx-eng.appspot.com/algebra/discrete-log.html
 #include <bits/stdc++.h>
 
 using namespace std;
