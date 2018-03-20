@@ -32,6 +32,7 @@ ll go(ll a, ll b, ll m) {
 	b%=m;
 	if (b == 1)	return 0;
 
+	// PARTE DISNEY
 	if (gcd(a,m) != 1) {
 		set <int> s;
 		ll at = a;
@@ -43,6 +44,7 @@ ll go(ll a, ll b, ll m) {
 		}
 	}
 
+	// CERTO DAQUI P BAIXO
 
 	ll n = sqrt(m) + 1;
 
