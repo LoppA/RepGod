@@ -41,7 +41,7 @@ public:
 
 	int query (int u, int v){
 		if (dist[v] < dist[u])
-		swap(v,u);
+			swap(v,u);
 
 		int x = dist[v] - dist[u];
 
@@ -57,7 +57,7 @@ public:
 				v = pai[v][i];
 			}
 
-		return pai[v][0];
+		return pai[u][0];
 	}
 };
 
