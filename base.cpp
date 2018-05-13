@@ -3,6 +3,7 @@
 using namespace std;
 
 #define pb push_back
+#define eb emplace_back
 #define mk make_pair
 #define fi first
 #define se second
