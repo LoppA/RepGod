@@ -45,6 +45,7 @@ ll i_pot (ll x, ll y) {
 // Formula: n! / (n-k)! * (k)! 
 // With dinamic programming we can use (n + 1, k) = (n, k-1) + (n, k) and (n, 0) = 1, (n, n) = 1 for n >= 0
 // (n, k) = (n, n - k) for 0 <= k <= n
+// (n, k) = (n/k) * (n-1, k-1)
 ll choose(ll n, ll k) {
 	if(k > n)	return 0LL;
 
