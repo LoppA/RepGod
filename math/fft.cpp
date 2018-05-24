@@ -39,7 +39,7 @@ void fft (vector<base> & a, bool invert) {
 
 // a, b => coefs to multiply,  res => resulting coefs
 // a[0], b[0], res[0] = coef x^0
-// Dont work with negative coefs
+// Doesnt work with negative coefs
 void multiply (const vector<int> & a, const vector<int> & b, vector<int> & res) {
 	vector<base> fa (a.begin(), a.end()),  fb (b.begin(), b.end());
 	size_t n=1;
