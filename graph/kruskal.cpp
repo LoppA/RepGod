@@ -21,12 +21,14 @@ public:
 
 	uni() {
 		memset(pai, -1, sizeof pai);
-		memset(size, 0, sizeof size);
+		for(int i = 0; i < N; i++)
+			size[i] = 1;
 	}
 
 	uni(int n) {
 		memset(pai, -1, sizeof pai);
-		memset(size, 0, sizeof size);
+		for(int i = 0; i < N; i++)
+			size[i] = 1;
 		cps = n;
 	}
 
