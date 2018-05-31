@@ -1,0 +1,20 @@
+// mod = 2**k * c + 1
+// ASSERT: root_pw(2**k) > 2*N
+
+const int mod = 7340033;
+const int root = 5;		// 2**c -> (2**k)th root
+const int root_1 = 4404020;	// root inverse
+const int root_pw = 1 << 20;	// 2**k (note: 2**k must be greater than N)
+
+const int N = 2e5 + 5;
+const int mod = 998244353;
+const int root = 15311432;
+const int root_1 = 469870224;
+const int root_pw = 1 << 23;
+
+const int N = 2e5 + 5;
+const int mod = 998244353;
+const int root = 363395222;
+const int root_1 = 704923114;
+const int root_pw = 1 << 19;
+
