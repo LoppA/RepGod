@@ -1,10 +1,23 @@
 /* Divide & Conquer Trick
- * dp[i] = min k<i {dp[k] + c[k][i]}
- * opt[i-1] <= opt[i] <= opt[i+1]
+ * dp[m][i] = min k<i {dp[m-1][k] + c[k][i]}
+ * opt[m][i-1] <= opt[m][i] <= opt[m][i+1]
  *
- * opt property is true if quadrangulaer iniquality holds:
+ * opt property is true if quadrangular iniquality holds:
  *    a <= b <= c <= d
  *    c[a][c] + c[b][d] <= c[a][d] + c[b][c]
+ *
+ * Algorithm:
+ * go(m, l, r, optl, optr) 
+ *    if(l > r) return
+ *    i = (l+r)/2
+ *    dp[m][i] = INF
+ *    for(optl <= k <= min(optr, i-1))
+ *       if(dp[m-1][k]+c[k][i] < dp[m][i])
+ *           opt = k
+ *           dp[m][i] = dp[m-1][k]+c[k][i]
+ *
+ *    go(m, l, i-1, optl, opt)
+ *    go(m, i+1, r, opt, optr)
  *
  * code example for problem: http://codeforces.com/contest/321/problem/E
  * */
