@@ -5,6 +5,8 @@
  * opt property is true if quadrangulaer iniquality holds:
  *    a <= b <= c <= d
  *    c[a][c] + c[b][d] <= c[a][d] + c[b][c]
+ *
+ * code example for problem: http://codeforces.com/contest/321/problem/E
  * */
 #include <bits/stdc++.h>
 
