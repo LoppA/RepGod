@@ -6,6 +6,20 @@
  *    a <= b <= c <= d
  *    c[a][c] + c[b][d] <= c[a][d] + c[b][c]
  *
+ *    proof:
+ *        assume a < b and opta > optb
+ *        so:
+ *        dp[optb] + c[optb][a] > dp[opta] + c[opta][a]  optb must have minimum value for dpb
+ *        dp[opta] + c[opta][b] > dp[optb] + c[optb][b]  opta must have mininum value for dpa
+ *
+ *        dp[optb] + c[optb][a] > dp[opta] + c[opta][a]
+ *        -dp[optb] + c[opta][b] > -dp[opta] + c[optb][b]
+ *
+ *        c[optb][a] + c[opta][b] > c[opta][a] + c[optb][b]
+ *        contradition: 
+ *            optb < opta < a < b    (opti < i)
+ *            c[optb][a] + c[opta][b] < c[optb][b] + c[opta][a]
+ *
  * Algorithm:
  * go(m, l, r, optl, optr) 
  *    if(l > r) return
