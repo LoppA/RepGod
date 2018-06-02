@@ -34,7 +34,7 @@ public:
 	// p^q = 0 => ang = 0 or PI, p and q are colinear
 	// p^q > 0 => 0 < ang < PI / p^q < 0 => -PI < ang < 0
 	// p^q = directed area of paralelogram formed by vectors p and q
-	// list point p to line ab = ||ab^p|| / ||ab||
+	// dist point p to line ab = ||ab^p|| / ||ab||
 	T operator ^ (const Point &b) const {
 		return (this->x * b.y) - (this->y * b.x); 
 	}
@@ -43,7 +43,6 @@ public:
 	// p*q = |p|*|q|*cos(ang)	ang: inner ang (0 <= ang < PI)
 	// p*q = 0 => ang = 90 / p*q > 0 => ang < 90 / p*q < 0 => ang > 90
 	// p*p = |p|^2  => |p| = sqrt(p*p)
-	// p*q is the directed length of projection of p on q
 	T operator * (const Point &b) const {
 		return (this->x * b.x) + (this->y * b.y);
 	}
