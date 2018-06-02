@@ -6,6 +6,17 @@
  *    a <= b <= c <= d
  *    c[a][c] + c[b][d] <= c[a][d] + c[b][c]
  *
+ *    d|3331111111
+ *     |3331111111
+ *    c|0002221111   c[a][c] + c[b][d] + square(3) = c[a][d] + c[b][c]
+ *     |0002221111
+ *    b|0002221111
+ *     |0000003333
+ *    a|0000003333
+ *      a  b  c  d
+ *
+ *      for c[i][j] >= 0 it's always true
+ *
  *    proof:
  *        assume a < b and opta > optb
  *        so:
