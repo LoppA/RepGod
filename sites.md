@@ -16,7 +16,7 @@
 
 - Short Contest
 
-[Codeforces](http://www.codeforces.com)
+[Codeforces](https://www.codeforces.com)
 
 [AtCoder](https://atcoder.jp)
 
