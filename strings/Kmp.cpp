@@ -53,7 +53,7 @@ void KMP () {
 		if (p[k] == t[i])
 			k++;
 		if (k == m)
-			report (i - m);
+			report (i - m + 1);
 	}
 
 }
