@@ -7,6 +7,5 @@ typedef long long ll;
 ll gcd (ll a, ll b) {
 	if (!b)
 		return a;
-	else
-		return gcd(b, a%b);
+	return gcd(b, a%b);
 }
