@@ -446,6 +446,38 @@ public:
 		return ans;
 	}
 //	** MAX A*X + B*Y	END
+    /*
+    Teorema de Pick:
+    Um polígono construído sobre uma grade de pontos equidistantes.
+    Dado um polígono simples construído sobre uma grade de pontos equidistantes (i.e., pontos com coordenadas inteiras) 
+    de tal forma que todos os vértices do polígono sejam pontos da grade, o teorema de Pick fornece uma fórmula simples 
+    para o cálculo da área A desse polígono em termos do número i de pontos interiores localizados no polígono, 
+    e o número b de pontos fronteiriços localizados no perímetro do polígono:
+        A = i + b/2 - 1
+
+        i = A - b/2 + 1
+    Os pontos devem ser inteiros
+    */
+	static ll pick_theorem(const vector<Point> &p) {
+        int n = p.size();
+        ll A = 0, b = 0;
+
+        for(int i = 0; i < n; i++) {
+            int j = (i+1)%n;
+            A += p[i]^p[j];
+
+			ll xx = abs(p[j].x - p[i].x);
+			ll yy = abs(p[j].y - p[i].y);
+
+            b += gcd(xx, yy);
+        }
+
+        if(A < 0)   A *= -1;
+        A>>=1;
+
+        ll ans = A - (b>>1) + 1;
+        return ans;
+	}
 };
 
 template <class T>
