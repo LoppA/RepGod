@@ -12,8 +12,6 @@ typedef pair<int, int> ii;
 const int INF = 0x3f3f3f3f;
 const double PI = acos(-1.0);
 
-const ll mod = 1e9 + 7;
-
 struct SegT {
 	vector <ll> seg, lazy;
 	int n;
@@ -28,14 +26,11 @@ struct SegT {
 
 	void prop (int r, int i, int j) {
 
-		seg[r] += lazy[r];
-		seg[r] %= mod;
+		seg[r] += lazy[r] * (j-i+1);
 
 		if (i != j) {
 			lazy[2*r] += lazy[r];
-			lazy[2*r] %= mod;
 			lazy[2*r + 1] += lazy[r];
-			lazy[2*r + 1] %= mod;
 		}
 
 		lazy[r] = 0;
@@ -54,7 +49,7 @@ struct SegT {
 			int mid = (i + j)/2;
 			ll L = update (2*r, i, mid, val);
 			ll R = update (2*r + 1, mid + 1, j, val);
-			return (L + R)%mod;
+			return L + R;
 		}
 	}
 
