@@ -12,11 +12,35 @@ typedef long long ll;
 const double EPS = 1e-9;
 const double PI = acos(-1.0);
 
+/* 
+ *     /|
+ *    /A|
+ *  c/  |b  
+ *  /   |
+ * /B__C|
+ *   a
+ * Lei dos Cossenos: a**2 = b**2 + c**2 - 2*b*c*cos(A)
+ * Lei dos Senos: a/sin(A) = b/sin(B) = c/sin(C)
+ *
+ * */
+
 ll gcd (ll a, ll b) {
 	if (!b)
 		return a;
 	else
 		return gcd(b, a%b);
+}
+
+double norm(double x) {
+    if(x > 0)   return 1;
+    if(x < 0)   return -1;
+    return 0;
+}
+
+double sig_mul(double a, double b) {
+    a = norm(a);
+    b = norm(b);
+    return a*b;
 }
 
 class Point {
@@ -180,8 +204,26 @@ public:
 		return mk(a/gcd(a,b), b/gcd(a,b));
 	}
 
-	/*Interseccao de dois vetores somandos a pontos*/
-	static double inter (Point p1, Point v1, Point p2, Point v2) {
+    // Check if segment ab intersects with cd
+	static bool inter (const Point &a, const Point &b, const Point &c, const Point &d) {
+        Point ab = b-a;
+        Point ac = c-a;
+        Point ad = d-a;
+
+        if(sig_mul(ab^ac, ab^ad) > 0.0)
+            return false;
+
+        Point cd = d-c;
+        Point ca = a-c;
+        Point cb = b-c;
+        if(sig_mul(cd^ca, cd^cb) > 0.0)
+            return false;
+
+        return true;
+    }
+
+	/*Interseccao de dois vetores somandos a pontos, returns t that p1 + v1*t = P_inter*/
+	static double intersect (Point p1, Point v1, Point p2, Point v2) {
 		if (abs(v2 ^ v1) >= EPS) {
 			Point c = p1 - p2;
 			return (c ^ v2)/(v2 ^v1);
