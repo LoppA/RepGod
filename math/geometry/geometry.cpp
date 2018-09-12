@@ -1,3 +1,35 @@
+/*** Sumario
+ * Lei dos Cossenos, Lei dos Senos
+ * gcd
+ * norm
+ * sig_mul
+ * Point
+ *  operators
+ *  len
+ *  ddp, ddp2
+ *  relative_proj
+ *  norm
+ *  perp
+ *  distToSegment
+ *  proj
+ *  rotaciona
+ *  area
+ *  convex_hull
+ *  ang
+ *  inter
+ *  intersect
+ *  inside
+ *  minRetangulo
+ *  max_dist
+ *  min_dist
+ *  max_ab
+ *  pick_theorem
+ * Circle
+ *  intersect
+ *  circumcicle
+ *  cover
+ * getAreaTriangle
+ * */
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -204,18 +236,39 @@ public:
 		return mk(a/gcd(a,b), b/gcd(a,b));
 	}
 
-    // Check if segment ab intersects with cd
+    // Check if segment ab intersects with cd, considera endpoints como dentro
 	static bool inter (const Point &a, const Point &b, const Point &c, const Point &d) {
         Point ab = b-a;
         Point ac = c-a;
         Point ad = d-a;
 
-        if(sig_mul(ab^ac, ab^ad) > 0.0)
-            return false;
-
         Point cd = d-c;
         Point ca = a-c;
         Point cb = b-c;
+
+        // a, b, c, d -> Colineares
+        // Se estiver desconsiderando endpoints nao precisa, essa parte +- testada
+        if(abs(ab^ac) < EPS and abs(ab^ad) < EPS) {
+            Point bc = c-b;
+            Point bd = d-b;
+            Point da = a-d;
+            Point db = b-d;
+            if((ac*ad) <= 0.0)  // < para descosiderar endpoints(soh igual a zero quando c=d)
+                return true;
+            if((bc*bd) <= 0.0)  // < para descosiderar endpoints(soh igual a zero quando c=d)
+                return true;
+            if((ca*cb) <= 0.0)  // < para descosiderar endpoints(soh igual a zero quando c=d)
+                return true;
+            if((da*db) <= 0.0)  // < para descosiderar endpoints(soh igual a zero quando c=d)
+                return true;
+            return false;
+        }
+
+        // >= para desconsiderar endpoints
+        if(sig_mul(ab^ac, ab^ad) > 0.0)
+            return false;
+
+        // >= para desconsiderar endpoints
         if(sig_mul(cd^ca, cd^cb) > 0.0)
             return false;
 
