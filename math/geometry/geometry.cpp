@@ -3,7 +3,7 @@
  * gcd
  * norm
  * sig_mul
- * Point
+ **Point
  *  operators
  *  len
  *  ddp, ddp2
@@ -24,7 +24,7 @@
  *  min_dist
  *  max_ab
  *  pick_theorem
- * Circle
+ **Circle
  *  intersect
  *  circumcicle
  *  cover
