@@ -14,13 +14,11 @@ typedef pair<int, int> ii;
 const int INF = 0x3f3f3f3f;
 const double PI = acos(-1.0);
 
-int k;
-
 struct minq {
 	deque<ii> v;
-	int t;
+	int t, k;
 
-	minq() {}
+	minq(int k) : k(k) {}
 
 	void clear() {
 		v.clear();
