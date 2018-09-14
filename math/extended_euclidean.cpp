@@ -6,6 +6,8 @@
 
     x * y <= 0 (x > 0 => y <= 0, y > 0 => x <= 0)
 
+    others solutions: x' = x+k*(b/g), y' = y-k*(a/g) k is integer
+
     Quick explanation:
         r[0] = a, r[1] = b
 
