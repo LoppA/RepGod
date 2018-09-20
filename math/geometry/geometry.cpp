@@ -210,11 +210,13 @@ public:
 
 		sort(p.begin(), p.end());
 
+        // Lower Hull
 		for (int i = 0; i < n; i++) {
 			while (k >= 2 and ((H[k-1]-H[k-2])^(p[i]-H[k-2])) <= 0.0) k--;
 			H[k++] = p[i];
 		}
 
+        // Upper Hull
 		for (int i = n-2, t = k+1; i >= 0; i--) {
 			while (k >= t and ((H[k-1]-H[k-2])^(p[i]-H[k-2])) <= 0.0) k--;
 			H[k++] = p[i];
