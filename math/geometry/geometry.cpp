@@ -666,6 +666,50 @@ public:
 
 		return res;
 	}
+
+    // Retorna os pontos da tangente externa entre os circulo a e b
+    // Soh funciona se a e b nao estao contidos inteiramente um no outro
+    static vector<Point> outter_tang(Circle a, Circle b) {
+        vector<Point> ret;
+        // a eh o circulo de maior area
+        if(a.r < b.r) 
+            swap(a, b);
+        // raio iguais n tem ponto de interseccao das duas tangentes
+        // os vetor do raio ao ponto da tangente eh perpenditular ao vetor que liga os centros
+        if(abs(a.r-b.r) < EPS) {
+            double dist = a.c.dpp(b.c);
+            Point vv = a.c-b.c;
+            vv = Point(vv.y, -vv.x);
+
+            double len_ratio = a.r / dist;
+            ret.pb(a.c + vv*len_ratio);
+            ret.pb(a.c - vv*len_ratio);
+
+            len_ratio = b.r / dist;
+            ret.pb(b.c + vv*len_ratio);
+            ret.pb(b.c - vv*len_ratio);
+
+            return ret;
+        }
+        return ret;
+
+        double dist = a.c.dpp(b.c);
+        // distancia entre a.c e o ponto de interseccao das tangentes
+        double h = (dist * a.r) / (a.r - b.r);
+
+        // ponto de interseccao das tangentes
+        Point p = a.c + ((b.c - a.c) * (h / dist));
+
+        double len_ratio = sqrt(h*h - a.r*a.r) / h;
+        ret.pb( p + (a.c-p).rotaciona(asin(a.r/h))*len_ratio);
+        ret.pb( p + (a.c-p).rotaciona(-asin(a.r/h))*len_ratio );
+
+        len_ratio = sqrt((h-dist)*(h-dist) - b.r*b.r) / (h-dist);
+        ret.pb( p + (b.c-p).rotaciona(asin(b.r/(h-dist)))*len_ratio );
+        ret.pb( p + (b.c-p).rotaciona(-asin(b.r/(h-dist)))*len_ratio );
+
+        return ret;
+    }
 };
 
 /* Get area of a nondegenerate triangle, with sides a, b, c */
