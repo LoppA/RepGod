@@ -37,6 +37,7 @@ struct Trie {
 	bool remove (const string &s, int i) {
 		if (i == (int)s.size()) {
 			if (word) {
+				cnt--;
 				word--;
 				return true;
 			}
