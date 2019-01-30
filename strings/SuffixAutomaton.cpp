@@ -63,6 +63,7 @@
  *  Number_of_occurrences
  *  Position_first_occurrence 
  *  Position_of_all_occurrences
+ *  in_a_not_in_b
  * */
 
 #include <bits/stdc++.h>
