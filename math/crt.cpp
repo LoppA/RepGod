@@ -14,55 +14,69 @@ typedef pair<int, int> ii;
 const int INF = 0x3f3f3f3f;
 const double PI = acos(-1.0);
 
-ll pot(ll x, ll y, ll mod) {
-	ll a = x, ret = 1;
-
-	while(y > 0) {
-		if(y&1)
-			ret = (ret * a)%mod;
-
-		a = (a * a)%mod;
-		y >>= 1;
-	}
-
-	return ret;
+// ax + by = g
+// g = 1 for a and b coprimes
+ll gcd(ll a, ll b, ll &x, ll &y) {
+    if(!b) {
+        x = 1;
+        y = 0;
+        return a;
+    }
+    ll ret = gcd(b, a%b, x, y);
+    ll t = x;
+    x = y;
+    y = t - (a/b)*y;
+    return ret;
 }
-
-// O(N**2 * log2(p)), works with bultin types until final multplication
-// Define: a = x0 + x1*p0 + x2*p0*p1 + ... + x[n-1]*p0*...*p[n-2]
-// So:  a = x0 (mod p0)
-//      a = x0 + x1*po (mod p1)
-// So:  x0 = a0 (mod p0)
-//      x1 = (a1 - x0)*p0**-1 (mod p1)
-//      x2 = ((a2 - x0)*p0**-1 - x1)*p1**-1 (mod p2)
+ 
+const ll mul(ll x, ll y, ll mod) {
+  ll ret = 0;
+ 
+  if(x<0) x+= mod;
+  if(y<0) y+= mod;
+ 
+  while(y) {
+    if(y&1)
+      ret = (ret+x)%mod;
+    x = (x<<1)%mod;
+    y >>= 1;
+  }
+ 
+  return ret;
+}
+ 
+inline ll mul(ll a, ll b, ll c, ll mod) {
+  a %= mod;
+  b %= mod;
+  c %= mod;
+  ll x = mul(a, b, mod);
+  return mul(x, c, mod);
+}
+ 
+ll go(ll a0, ll p0, ll a1, ll p1) {
+  ll m0, m1;
+  gcd(p0, p1, m0, m1);
+ 
+  assert(p0*m0 + p1*m1 == 1);
+ 
+  return mul(a0, p1, m1, (p0*p1)) + mul(a1, p0, m0,(p0*p1));
+}
+ 
 ll crt(const vector<ll> &a, const vector<ll> &p) {
-	if(a.size() == p.size());
-	int n = a.size();
-	vector<ll> x(n);
-
-	for(int i = 0; i < n; i++) {
-		x[i] = a[i];
-		for(int j = 0; j < i; j++) {
-			x[i] = (x[i] - x[j]) * pot(p[j], p[i]-2, p[i]);
-			x[i] %= p[i];
-			if(x[i] < 0)
-				x[i] += p[i];
-		}
-	}
-
-	// This part could need bit integer
-	ll ret = 0;
-	ll pp = 1;
-	ll _p = 1;
-	for(auto it : p)
-		_p *= it;
-
-	for(int i = 0; i < n; i++) {
-		ret = (ret + x[i] * pp)%_p;
-		pp *= p[i];
-	}
-
-	return ret;
+  assert(a.size() == p.size());
+  int n = a.size();
+ 
+  ll _a = a[0];
+  ll _p = p[0];
+ 
+  for(int i = 1; i < n; i++) {
+    _a = go(_a, _p, a[i], p[i]);
+    _p *= p[i];
+    _a %= _p;
+    if(_a < 0)  _a += _p;
+  }
+ 
+  return _a;
 }
 
 int main (void) {
