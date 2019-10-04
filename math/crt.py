@@ -19,7 +19,7 @@ def pot(x, y, mod):
 # a = a1     (mod p1) ...
 # a = a(n-1) (mod p(n-1))
 # find a given pi and ai
-# a = sum[0 <= i < n]{ ai * (p/pi) * ((pi/p)**-1)%pi } % p
+# a = sum[0 <= i < n]{ ai * (p/pi) * (pi/p)%pi } % p
 # O(N * log2(p))
 def crt(a, p):
     # a and p are numpy.arrays
