@@ -5,7 +5,7 @@
  *    or transform A(x) = A1(x) + A2(x)*c decompose into A(x)/c and A(x)%c
  *                 B(x) = B1(x) + B2(x)*c
  *        where c ~= sqrt(mod)
- *        A * B = A1*B1 + c*(A1*B2 + A2*B1) * c**2(A2*B2)
+ *        A * B = A1*B1 + c*(A1*B2 + A2*B1) + c**2(A2*B2)
  *        with all values < sqrt(mod) subpolynomials have coefficientes < mod * N after fft multiply decreasing changes of rounding error
  * */
 
