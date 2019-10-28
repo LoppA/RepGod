@@ -17,7 +17,7 @@ int n, a[N];
 int root[N], nodes, L[M], R[M], seg[M];
  
 int build (int l, int r) {
-	int at = nodes++;
+	int at = ++nodes;
  
 	if (l == r) {
 		seg[at] = a[at];
@@ -33,7 +33,7 @@ int build (int l, int r) {
  
 /* point update, v[p]++ */
 int update (int i, int l, int r, int p) {
-	int at = nodes++;
+	int at = ++nodes;
  
 	if (l == r) {
 		seg[at] = seg[i] + 1;
