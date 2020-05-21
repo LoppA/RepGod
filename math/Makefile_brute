@@ -1,0 +1,9 @@
+test:
+	g++ Karatsuba/a.cpp -Wall -O2
+	g++ a.cpp -o gen -Wall -O2
+	$(MAKE) t
+
+t:
+	./gen >testin
+	./a.out <testin
+	$(MAKE) t
