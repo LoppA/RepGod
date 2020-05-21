@@ -3,7 +3,7 @@
 using namespace std;
 
 template<typename T>
-void mult(T *a, T *b, const int n, T *res) {
+void mult(vector<T> &a, vector<T> &b, const int n, vector<T> &res) {
 	if(n <= 64) {
 		for(int i = 0; i < n; i++)
 			for(int j = 0; j < n; j++)
@@ -12,44 +12,49 @@ void mult(T *a, T *b, const int n, T *res) {
 	}
 
 	int mid = n/2;
-	mult(a, b, mid, res);						// r0 = a0*b0, r0*x^0
-	mult(a+mid, b+mid, mid, res+n);	// r2 = a1+b1, r2*x^2mid
+	vector<T> _a(mid), _b(mid);
+	vector<T> E(n);
 
-	T _a[mid], _b[mid];	//shhhh
-	T E[n] = {0};
-	for(int i = 0; i < mid; i++) {
+	mult(a, b, mid, res);						// r0 = a0*b0, r0*x^0
+
+	for(int i = 0; i < mid; i++) {	// a1, b1
+		_a[i] = a[i+mid];
+		_b[i] = b[i+mid];
+	}
+	mult(_a, _b, mid, E);						// r2 = a1+b1
+	for(int i = 0; i < n; i++)
+		res[i+n] = E[i];							// *= x^n
+
+	for(int i = 0; i < mid; i++) {	// (a0+a1), (b0+b1)
 		_a[i] = a[i] + a[i+mid];
 		_b[i] = b[i] + b[i+mid];
 	}
-	mult(_a, _b, mid, E);
+	fill(E.begin(), E.end(), 0);
+	mult(_a, _b, mid, E);						// E = (a0+a1)*(b0+b1)
 
-	for(int i = 0; i < mid; i++) {
+	for(int i = 0; i < mid; i++) {	// (E-r0-r2)*x^mid
 		const T tmp = res[i+mid];
-		res[i+mid] += E[i] - res[i] - res[i+n];
-		res[i+2*mid] += E[i+mid] - tmp - res[i+n+mid];
+		res[i+mid] 		 += E[i] 		 - res[i] - res[i+n];
+		res[i+mid+mid] += E[i+mid] - tmp 	  - res[i+n+mid];
 	}
 }
 
 template<typename T>
-void mult(T *a, int na, T *b, int nb, T* res) {
+void mult(vector<T> &a, int na, vector<T> &b, int nb, vector<T> &res) {
 	int n = 1;
 	while(n < max(na, nb))	n <<= 1;
+	a.resize(n, 0);	b.resize(n, 0);
+	res.resize(2*n);
 	mult<T>(a, b, n, res);
 }
-
-const int N = 1e5 + 5, RN = 4*N;
-long long a[N], b[N], res[RN];
 
 int main(void) {
 	ios_base::sync_with_stdio(false);
 	int T;	cin >> T;
 	while(T--) {
-		memset(a, 0, sizeof a);
-		memset(b, 0, sizeof b);
-		memset(res, 0, sizeof res);
-
 		int n;	cin >> n;
 		n++;
+		vector<long long> a(n, 0), b(n, 0), res;
 		for(int i = 0; i < n; i++)
 			cin >> a[i];
 		for(int i = 0; i < n; i++)
