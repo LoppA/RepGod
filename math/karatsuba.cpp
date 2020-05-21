@@ -40,9 +40,9 @@ void mult(vector<T> &a, vector<T> &b, const int n, vector<T> &res) {
 }
 
 template<typename T>
-void mult(vector<T> &a, int na, vector<T> &b, int nb, vector<T> &res) {
+void mult(vector<T> &a, vector<T> &b, vector<T> &res) {
   int n = 1;
-  while(n < max(na, nb))  n <<= 1;
+  while(n < (int)max(a.size(), b.size()))  n <<= 1;
   a.resize(n, 0); b.resize(n, 0);
   res.resize(2*n);
   mult<T>(a, b, n, res);
@@ -60,7 +60,7 @@ int main(void) {
     for(int i = 0; i < n; i++)
       cin >> b[i];
 		
-    mult<long long>(a, n, b, n, res);
+    mult<long long>(a, b, res);
 
     for(int i = 0; i < 2*n-1; i++)
       cout << res[i] << " \n"[i==2*n-2];
