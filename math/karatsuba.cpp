@@ -1,3 +1,5 @@
+/*O(n^log2(3)) or O(n1.58)*/
+
 #include <bits/stdc++.h>
 
 using namespace std;
