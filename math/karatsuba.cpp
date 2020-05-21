@@ -40,13 +40,18 @@ void mult(vector<T> &a, vector<T> &b, const int n, vector<T> &res) {
 }
 
 template<typename T>
-void mult(vector<T> &a, vector<T> &b, vector<T> &res) {
+void mult(const vector<T> &a, const vector<T> &b, vector<T> &res) {
   int n = 1;
   while(n < (int)max(a.size(), b.size()))  n <<= 1;
-  a.resize(n, 0); b.resize(n, 0);
+  vector<T> _a(a.begin(), a.end());
+  vector<T> _b(b.begin(), b.end());
+  _a.resize(n, 0); _b.resize(n, 0);
+
   res.resize(2*n);
-  mult<T>(a, b, n, res);
+  fill(res.begin(), res.end(), 0);
+  mult<T>(_a, _b, n, res);
 }
+
 
 int main(void) {
   ios_base::sync_with_stdio(false);
