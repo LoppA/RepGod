@@ -22,7 +22,7 @@ class srcFile:
     if(len(self.wr) == 0):
       print(self.src + " OK!")
     else:
-      print(self.src + " Wrong cases: ", end="")
+      print(self.src + " Wrong cases("+ str(len(self.wr))+ "): ", end="")
       for c in self.wr:
         print(c, end=" ")
       print()
@@ -39,9 +39,7 @@ sol = []
 for i in range (len(data["solution"])):
   src = srcFile(data["solution"][i], "Test/sol" + str(i))
   sol.append(src)
-
 brute = srcFile(data["brute"], "Test/brute")
-
 gen = srcFile(data["generator"], "Test/gen")
 
 for i in range(N):
