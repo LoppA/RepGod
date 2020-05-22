@@ -1,0 +1,7 @@
+{
+  "solution": ["FFT/opt.cpp",
+               "FFT/opt2.cpp",
+               "fastNTT/doubleMod.cpp"],
+  "brute": "DP/a.cpp",
+  "generator": "generator.cpp"
+}
