@@ -1,4 +1,6 @@
-/*O(n^log2(3)) or O(n1.58)*/
+/*O(n^log2(3)) or O(n1.58)
+https://codeforces.com/blog/entry/74209 is faster
+*/
 
 #include <bits/stdc++.h>
 
