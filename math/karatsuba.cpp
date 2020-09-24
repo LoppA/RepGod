@@ -1,5 +1,38 @@
 /*O(n^log2(3)) or O(n1.58)
 https://codeforces.com/blog/entry/74209 is faster
+
+Queremos calcular a multiplicacao de polinomio A*B
+
+n = maximo entre tamanho do polinomio a e b. Fazer n ser uma potencia de 2 para ficar mais simples
+mid = n/2
+
+Dividir o polinomio P em 2 partes, p1 e p0. p0 eh a metade com os coeficientes das potencias de 0 ateh mid-1 e p1 eh a metade com os coeficientes das potencias de mid ateh n-1.
+
+A = a1*x^mid + a0
+B = b1*x^mid + b0
+
+assim A*B = (a1*x^mid + a0) * (b1*x^mid + b0) = a0*b0 + (a1*b0 + a0*b1)*x^mid + a1*b1*x^n (**formula1**)
+
+podemos calcular a0*b0 e a1*b1. Note que esses polinomios tem a metade do tamanho dos originais(mid).
+Vamos chamar f0 = a0*b0 e f1 = a1*b1
+
+E agora calculamos E = (a0+a1)*(b0+b1). (a0+a1) e (b0+b1) possuem tamanho mid tambem.
+
+A resposta para A*B pode ser escrita da forma:
+
+f0 + f1*x^n + (E - f0 - f1)*x^mid
+
+Por que isso esta certo?
+f0 + f1*x^n + (E - f0 - f1)*x^mid,  substituindo f0 e f1
+(a0*b0) + (a1*b1)*x^n + (E - (a0*b0) - (a1*b1))*x^mid,  substituindo E
+(a0*b0) + (a1*b1)*x^n + ((a0+a1)*(b0+b1) - (a0*b0) - (a1*b1))*x^mid,  abrindo as multiplicacoes
+(a0*b0) + (a1*b1)*x^n + (a0*b0 + a0*b1 + a1*b0 + a1*b1 - (a0*b0) - (a1*b1))*x^mid,     simplificando
+(a0*b0) + (a1*b1)*x^n + (a0*b1 + a1*b0)*x^mid, e isso eh igual a A*B escrito em **formula1** acima
+
+Complexidade:
+Para o problema de tamanho n, fazemos 3 chamadas para um problema menor de tamanho mid=n/2:
+T(n) = 3*T(N/2) + O(N)
+pelo teorema do mestre a complexidade eh O(n^log2(3))
 */
 
 #include <bits/stdc++.h>
