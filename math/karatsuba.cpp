@@ -52,13 +52,13 @@ void mult(vector<T> &a, vector<T> &b, const int n, vector<T> &res) {
   vector<T> _a(mid), _b(mid);
   vector<T> E(n);
 
-  mult<T>(a, b, mid, res);           // r0 = a0*b0, r0*x^0
+  mult<T>(a, b, mid, res);           // f0 = a0*b0
 
   for(int i = 0; i < mid; i++) {  // a1, b1
     _a[i] = a[i+mid];
     _b[i] = b[i+mid];
   }
-  mult<T>(_a, _b, mid, E);           // r2 = a1+b1
+  mult<T>(_a, _b, mid, E);           // f1 = a1*b1
   for(int i = 0; i < n; i++)
     res[i+n] = E[i];              // *= x^n
 
@@ -69,7 +69,7 @@ void mult(vector<T> &a, vector<T> &b, const int n, vector<T> &res) {
   fill(E.begin(), E.end(), 0);
   mult<T>(_a, _b, mid, E);           // E = (a0+a1)*(b0+b1)
 
-  for(int i = 0; i < mid; i++) {  // (E-r0-r2)*x^mid
+  for(int i = 0; i < mid; i++) {  // (E-f0-f1)*x^mid
     const T tmp = res[i+mid];
     res[i+mid]     += E[i]     - res[i] - res[i+n];
     res[i+mid+mid] += E[i+mid] - tmp    - res[i+n+mid];
