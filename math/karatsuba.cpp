@@ -30,7 +30,7 @@ f0 + f1*x^n + (E - f0 - f1)*x^mid,  substituindo f0 e f1
 (a0*b0) + (a1*b1)*x^n + (a0*b1 + a1*b0)*x^mid, e isso eh igual a A*B escrito em **formula1** acima
 
 Complexidade:
-Para o problema de tamanho n, fazemos 3 chamadas para um problema menor de tamanho mid=n/2:
+Para o problema de tamanho n, fazemos 3 chamadas para um problema menor de tamanho mid=n/2, (a0*b0, a1*b1 e (a0+a1)*(b0+b1)):
 T(n) = 3*T(N/2) + O(N)
 pelo teorema do mestre a complexidade eh O(n^log2(3))
 */
