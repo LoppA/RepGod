@@ -102,7 +102,7 @@ int main(void) {
     for(int i = 0; i < n; i++)
       cin >> b[i];
 		
-    mult<long long>(a, b, res);
+    mult(a, b, res);
 
     for(int i = 0; i < 2*n-1; i++)
       cout << res[i] << " \n"[i==2*n-2];
