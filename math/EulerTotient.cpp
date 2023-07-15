@@ -59,7 +59,7 @@ int getPhi(int n) {
   return ans;
 }
 
-// Bach phi calculation
+// Batch phi calculation, calculate from 1 to N-1 in O(n*log(n))
 // phi(n) = (p1^e1 - p1^(e1-1)) * (p2^e2 - p2^(e2-1)) ... (pk^ek - pk^(ek-1))
 // Above formula can be written as:
 // phi(n) = n * (1 - 1/p1) * (1 - 1/p2) ... * (1 - 1/pk)
