@@ -1,6 +1,4 @@
 // https://codeforces.com/blog/entry/106851
-// phi(n) in O(sqrt(n)), bottleneck is factorization, Pollard rho can optimize.
-//
 // phi(p^k) = p^k - p^(k-1)
 // If gcd(a,b) = 1 then phi(a*b) = phi(a) * phi(b)
 //
@@ -23,6 +21,8 @@ typedef pair<int, int> ii;
 const int INF = 0x3f3f3f3f;
 const double PI = acos(-1.0);
 
+// Phi for a single value n
+// phi(n) in O(sqrt(n)), bottleneck is factorization, Pollard rho can optimize.
 vector<ii> factorize(int n) {
   vector<ii> v;
   int m = sqrt(n);
@@ -44,7 +44,7 @@ vector<ii> factorize(int n) {
   return v;
 }
 
-int phi(int n) {
+int getPhi(int n) {
   vector<ii> divisors = factorize(n);
 
   int ans = 1;
@@ -59,14 +59,28 @@ int phi(int n) {
   return ans;
 }
 
+// Bach phi calculation
+// phi(n) = (p1^e1 - p1^(e1-1)) * (p2^e2 - p2^(e2-1)) ... (pk^ek - pk^(ek-1))
+// Above formula can be written as:
+// phi(n) = n * (1 - 1/p1) * (1 - 1/p2) ... * (1 - 1/pk)
+// O(n*log(n)), can be optimize with linear sieve.
+const int N = 5e6 + 5;
+int phi[N];
+void build() {
+  for (int i = 1; i < N; i++) {
+    phi[i] = i;
+  }
+ 
+  for (int i = 2; i < N; i++) {
+    if (phi[i] == i) {
+      for (int j = i; j < N; j+=i) {
+        phi[j] -= phi[j]/i;
+      }
+    }
+  }
+}
+
 int main (void) {
   ios_base::sync_with_stdio(false);
-
-  int T;  cin >> T;
-  while(T--) {
-    int n;  cin >> n;
-    cout << phi(n) << endl;
-  }
-
   return 0;
 }
