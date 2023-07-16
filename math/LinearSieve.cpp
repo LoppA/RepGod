@@ -33,6 +33,38 @@ void sieve() {
   }
 }
 
+// A function is a multiplicative function if for p and q coprimes, func(p*q) = func(p) * func(q)
+// Example bellow: func(p^k) = k
+// cnt[n] counts how many times the smallest prime p divides n.
+namespace multiplicativeFunction {
+  const int N = 5e6 + 6;
+  vector <int> prime;
+  bool vis[N];
+  int func[N], cnt[N];
+  
+  void sieve () {
+  	func[1] = 1;
+  	for (int i = 2; i < N; ++i) {
+  		if (!vis[i]) {
+  			prime.pb(i);
+  			func[i] = 1;
+        cnt[i] = 1;
+  		}
+  		for (int j = 0; j < prime.size () && i * prime[j] < N; j++) {
+  			vis[i * prime[j]] = true;
+  			if (i % prime[j] == 0) {
+  				func[i * prime[j]] = func[i] / cnt[i] * (cnt[i] + 1);
+  				cnt[i * prime[j]] = cnt[i] + 1;
+  				break;
+  			} else {
+  				func[i * prime[j]] = func[i] * func[prime[j]];
+  				cnt[i * prime[j]] = 1;
+  			}
+  		}
+  	}
+  }
+}
+
 int main (void) {
   ios_base::sync_with_stdio(false);
   sieve();
