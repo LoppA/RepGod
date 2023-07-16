@@ -85,39 +85,38 @@ namespace BatchPhi {
 }
 
 // phi(n) = (p1^e1 - p1^(e1-1)) * (p2^e2 - p2^(e2-1)) ... (pk^ek - pk^(ek-1))
-// phi(i) = (p^e - p^(e-1)) * phi(i/(p^e))
+// phi(n) = (p^e - p^(e-1)) * phi(n/(p^e))
+//
+// If n = i*p, p being the smallest prime that divides n
+//   If i and p are coprimes => phi(n) = phi(p) * phi(i)
+//   If p divides i => phi(n) = p * phi(i)
+//     Because phi(n) = (p^e - p^(e-1)) * phi(n/(p^e))
+//             phi(n) = p * (p^(e-1) - p^(e-2)) * phi(n/p^e)
+//             phi(n) = p * phi(n/p^e)
 // O(n), using linear sieve.
 namespace LinearBatchPhi {
   const int N = 5e6 + 5;
   vector<int> prime;
-  ll phi[N], vis[N];
-  
-  void sieve() {
+  int phi[N];
+
+  void build() {
+    for (int i = 1; i < N; i++) {
+      phi[i] = i;
+    }
+   
     for (int i = 2; i < N; i++) {
-      if (!vis[i])  {
-        vis[i] = i;
+      if (phi[i] == i) {
         prime.pb(i);
+        phi[i] = i-1;
       }
       for (int j = 0; j < (int)prime.size() and i*prime[j] < N; j++) {
-        vis[i*prime[j]] = prime[j];
-        if (i%prime[j] == 0) break;
+        if (i%prime[j]) {
+          phi[i*prime[j]] = phi[i] * phi[prime[j]];
+        } else {
+          phi[i*prime[j]] = prime[j] * phi[i];
+          break; // we know that i * prime[j + 1] will also have prime[j]
+        }
       }
-    }
-  }
-   
-  void build() {
-    sieve();
-  
-    phi[1] = 1;
-    for (int i = 2; i < N; i++) {
-      phi[i] = 1;
-      int p = vis[i];
-      int j = i;
-      while(j%p == 0) {
-        phi[i] *= p;
-        j /= p;
-      }
-      phi[i] = (phi[i] - phi[i]/p) * phi[j];
     }
   }
 }
