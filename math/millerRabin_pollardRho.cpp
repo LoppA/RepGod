@@ -79,6 +79,7 @@ bool millerRabin(ll n) {
   return true;
 }
 
+// O( sqrt(sqrt(n)) )
 ll rho(const ll n, const ll x0=2, const ll c=1) {
   if (n == 1) return 1;
 
