@@ -37,6 +37,7 @@ ll exp(LL x, ll y, ll mod) {
 // (a^(2^(s-1)d + 1)(a^(2^(s-2)d + 1)...(a^(2^d) + 1)(a^(2^d) - 1) = 0 mod n
 // If none of these terms are equal 0 mod n, we are sure that n is not a prime.
 // Otherwise n is **likely** a prime, need to try with other bases a.
+// O(log3(n))
 bool checkComposite(ll n, ll a, ll d, int s) {
   ll x = exp(a, d, n);
 
@@ -53,6 +54,7 @@ bool checkComposite(ll n, ll a, ll d, int s) {
 }
 
 // Returns true if n is prime, else returns false.
+// O(k*log3(n)), k = number of bases tested.
 bool millerRabin(ll n) {
   if (n < 2)
     return false;
