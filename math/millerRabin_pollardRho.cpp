@@ -127,10 +127,5 @@ ll rho(const ll n, const ll x0=2, const ll c=1) {
 int main (void) {
   ios_base::sync_with_stdio(false);
 
-  ll n;
-  while(cin >> n) {
-    cout << rho(n) << endl;
-  }
-
   return 0;
 }
