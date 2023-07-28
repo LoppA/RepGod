@@ -1,3 +1,5 @@
+// https://cp-algorithms.com/algebra/primality_tests.html#deterministic-version
+// https://cp-algorithms.com/algebra/factorization.html#implementation_1
 #include <bits/stdc++.h>
 
 using namespace std;
