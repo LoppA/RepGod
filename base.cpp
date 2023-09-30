@@ -47,6 +47,14 @@ void debug_out(vector<string> args, int idx, int LINE_NUM, Head H, Tail... T) {
 	debug_out(args, idx + 1, LINE_NUM, T...);
 }
 
+#ifdef DEBUG 
+#define debug(...) debug_out(vec_splitter(#__VA_ARGS__), 0, __LINE__, __VA_ARGS__)
+#define debug_endl() cout << endl;
+#else
+#define debug(...) 42
+#define debug_endl(...) 42
+#endif
+
 int main (void) {
 	ios_base::sync_with_stdio(false);
 
