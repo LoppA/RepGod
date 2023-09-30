@@ -1,3 +1,4 @@
+// g++ <fileName>.cpp -Wall -Wno-unused-value -DDEBUG
 #include <bits/stdc++.h>
 
 using namespace std;
