@@ -90,7 +90,7 @@ void multiply(const vector<int> &a, const vector<int> &b, vector<int> &res) {
 // record -> number that is greater than previous
 // (x)**(n) = x * (x + 1) * (x + 2) ... (x + n - 1) = sum(k=0, n){ s(n, k) * x**k }
 // Then the coeficient ak of x**k on (x)**(n) = s(n, k). Use fft to calculate (x)**(n)
-// s(n + 1, k) = s(n, k - 1) + n * s(n, k); s(0, 0) = 1 and s(n, 0) = s(0, n) = 0
+// s(n + 1, k) = s(n, k - 1) - n * s(n, k); s(0, 0) = 1 and s(n, 0) = s(0, n) = 0
 // O(nn * log(nn))
 vector <int> s[N];
 int stirling1(int n, int k) {
